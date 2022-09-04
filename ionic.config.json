@@ -1,0 +1,7 @@
+{
+  "name": "gameblast",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
