@@ -7,11 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'All', url: '/categories/All' },
-    { title: 'PC', url: '/categories/PC', icon: "assets/icon/pc.svg" },
-    { title: 'PlayStation', url: '/categories/PlayStation', icon: "assets/icon/playstation.svg" },
-    { title: 'Xbox', url: '/categories/Xbox', icon: "assets/icon/xbox.svg" },
-    { title: 'Nintendo', url: '/categories/Nintendo', icon: "assets/icon/nintendo.svg" },
+    { title: 'All', url: '/categories/All', icon: 'assets/icon/all.svg', theme: 'category_theme_all'},
+    { title: 'PC', url: '/categories/PC', icon: 'assets/icon/pc.svg', theme: 'category_theme_pc' },
+    { title: 'PlayStation', url: '/categories/PlayStation', icon: 'assets/icon/playstation.svg', theme: 'category_theme_playstation' },
+    { title: 'Xbox', url: '/categories/Xbox', icon: 'assets/icon/xbox.svg', theme: 'category_theme_xbox' },
+    { title: 'Nintendo', url: '/categories/Nintendo', icon: 'assets/icon/nintendo.svg', theme: 'category_theme_nintendo' },
   ];
   constructor() {}
 }

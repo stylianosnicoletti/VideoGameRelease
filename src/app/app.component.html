@@ -8,7 +8,7 @@
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
               routerLinkActive="selected">
-              <img *ngIf="p.icon != null" src="{{ p.icon }}" class="categoryicon">
+              <img src="{{ p.icon }}" class="{{ p.theme }}">
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>

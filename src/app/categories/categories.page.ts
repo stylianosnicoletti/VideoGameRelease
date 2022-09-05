@@ -14,6 +14,7 @@ export class CategoriesPage implements OnInit {
   ngOnInit() {
     //needs a guard
     this.categories = this.activatedRoute.snapshot.paramMap.get('id');
+    console.log(this.activatedRoute.snapshot.paramMap);
   }
 
 }

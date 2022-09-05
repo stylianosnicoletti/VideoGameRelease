@@ -118,7 +118,43 @@ ion-item.selected {
   --color: var(--ion-color-primary);
 }
 
-.categoryicon {
+
+.category_theme_all {
   width: 42px;
   height: 42px;
+  filter: invert(46%) sepia(77%) saturate(1592%) hue-rotate(160deg) brightness(93%) contrast(101%);
 }
+
+
+.category_theme_pc {
+  width: 42px;
+  height: 42px;
+  //#8e229b
+  //https://codepen.io/sosuke/pen/Pjoqqp
+  filter: invert(17%) sepia(95%) saturate(2431%) hue-rotate(281deg) brightness(88%) contrast(94%);
+}
+
+.category_theme_playstation {
+  width: 42px;
+  height: 42px;
+  //#222f9b
+  //https://codepen.io/sosuke/pen/Pjoqqp
+  filter: invert(18%) sepia(60%) saturate(3028%) hue-rotate(220deg) brightness(89%) contrast(92%);
+}
+
+.category_theme_xbox {
+  width: 42px;
+  height: 42px;
+  //#2f9b22
+  //https://codepen.io/sosuke/pen/Pjoqqp
+  filter: invert(44%) sepia(79%) saturate(488%) hue-rotate(66deg) brightness(95%) contrast(92%);
+}
+
+.category_theme_nintendo {
+  width: 42px;
+  height: 42px;
+  //#9b222f
+  //https://codepen.io/sosuke/pen/Pjoqqp
+  filter: invert(14%) sepia(50%) saturate(5107%) hue-rotate(341deg) brightness(89%) contrast(86%);
+}
+
