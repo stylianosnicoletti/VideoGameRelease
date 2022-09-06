@@ -23,7 +23,7 @@ export class ApiService {
     }
 
     public getGames(opt): Observable<any>{
-        return this.httpClient.post('https://api.igdb.com/v4/games','fields name; limit 10;',opt);
+        return this.httpClient.post('https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games','fields name; limit 10;',opt);
         //return this.httpClient.request(httpReq);
     }
 }
