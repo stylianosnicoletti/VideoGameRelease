@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -13,5 +16,13 @@ export class AppComponent {
     { title: 'Xbox', url: '/categories/Xbox', icon: 'assets/icon/xbox.svg', theme: 'category_theme_xbox' },
     { title: 'Nintendo', url: '/categories/Nintendo', icon: 'assets/icon/nintendo.svg', theme: 'category_theme_nintendo' },
   ];
-  constructor() {}
+  constructor() {
+    this.initializeApplication();
+  }
+
+  initializeApplication(){
+    // Initialize Firebase
+    const app = initializeApp(environment.firebase);
+    const analytics = getAnalytics(app);
+  }
 }
