@@ -23,7 +23,7 @@ export class CategoriesPage implements OnInit {
     //needs a guard
     this.categories = this.activatedRoute.snapshot.paramMap.get('id');
     console.log(this.activatedRoute.snapshot.paramMap);
-    this.apiService.getAccessToken().subscribe((authToken) => {
+    /*this.apiService.getAccessToken().subscribe((authToken) => {
       console.log(authToken);
 
       const httpOptions = {
@@ -36,11 +36,15 @@ export class CategoriesPage implements OnInit {
           'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
           'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Client-ID, Authorization'
         })
-      };
+      };*/
+
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'x-api-key': '***REMOVED***'
+      })};
 
       this.apiService.getGames(httpOptions).subscribe((data) => {
         console.log(data);
       });
-    });
   }
 }
