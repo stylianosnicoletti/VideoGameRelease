@@ -1,6 +1,7 @@
 export const environment = {
   //appVersion: require('../../package.json').version,
   production: false,
+  awsProxyApiKey: '***REMOVED***',
   firebase: {
     apiKey: "***REMOVED***",
     authDomain: "gameblast-a6f01.firebaseapp.com",
