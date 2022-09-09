@@ -18,11 +18,19 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getGames(): Observable<Game[]> {
+  public getGames(ids: string[]): Observable<Game[]> {
     return this.httpClient.post<Game[]>(
       this._proxyUrl + 'v4/games',
-      'fields *; where rating > 89; limit 15;',
+      `fields name,release_dates; where id = (4356,189,444); limit 10;`,
       this._httpOptions
     );
+  }
+
+    public getReleaseDates(platform: Number, take: Number, offset: Number): Observable<any> {
+      return this.httpClient.post<any>(
+        this._proxyUrl + 'v4/release_dates',
+        `fields game.*, *; where game.platforms = 6 & date > 1538129354 & human = *", 20"*; sort date desc; limit 22; offset 50;`,
+        this._httpOptions
+      );
   }
 }

@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true">
   <div>
     <!-- Normal screen -->
-    <ion-list *ngIf="listOfGames == null; then showLoading else showListOfGames">
+    <ion-list *ngIf="listOfGames.length == 0; then showLoading else showListOfGames">
       <!-- Skeleton in here-->
     </ion-list>
   </div>
@@ -24,7 +24,8 @@
   >
     <ion-label class="ion-text-wrap">
       <h2>
-        <strong>{{ game.value.name }}</strong>    
+        <strong>{{ game.value.name }}</strong>
+        <strong>{{ game.value.release_dates }}</strong>    
       </h2>
     </ion-label>
   </ion-item>
