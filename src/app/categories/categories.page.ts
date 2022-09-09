@@ -12,30 +12,36 @@ import { ApiService } from '../services/api.service';
 })
 export class CategoriesPage implements OnInit {
   categories: string;
-  listOfGames: Game[];
-  listOfSubscriptions: Subscription[] = [];
+  listOfGames: Game[] = [];
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _apiService: ApiService,
-  ) {}
+  ) { }
 
   async ngOnInit() {
     console.log('ngOnInit');
     //needs a guard in case other than 4 paths is provided!!
     this.categories = this._activatedRoute.snapshot.paramMap.get('id');
     //console.log(this.activatedRoute.snapshot.paramMap);
-    this.listOfSubscriptions.push(
-      this._apiService.getGames()
+    await this.initialise();
+  }
+
+  async initialise() {
+    this._apiService.getGames([])
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
-        this.listOfGames = data;
+        this.listOfGames = [ ...this.listOfGames, ...data];
         this.listOfGames.forEach((game) => {
           //console.log(game.name);
         });
-      })
-    );
+      });
+      this._apiService.getReleaseDates(0,0,0)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+          console.log(data);
+      });
   }
 
   async ionViewWillEnter() {
@@ -61,6 +67,12 @@ export class CategoriesPage implements OnInit {
   }
 
   async gameClicked(event) {
-    console.log(event);
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log(event)
+    this.initialise();
+
+
+      ;
   }
 }
