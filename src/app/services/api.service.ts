@@ -16,14 +16,14 @@ export class ApiService {
     constructor(
         private httpClient: HttpClient) { }
 
-    public getAccessToken(): Observable<AuthToken>{
+  /*  public getAccessToken(): Observable<AuthToken>{
         return this.httpClient.post<AuthToken>(
             `https://id.twitch.tv/oauth2/token?client_id=${this.clientId}&client_secret=${this.clientSecret}&grant_type=${this.grantType}`,
              null);
     }
-
+*/
     public getGames(opt): Observable<any>{
-        return this.httpClient.post('https://api.igdb.com/v4/games',null,opt);
+        return this.httpClient.post('https://5qwzyqsvol.execute-api.us-west-2.amazonaws.com/production/v4/games',null,opt);
         //return this.httpClient.request(httpReq);
     }
 }
