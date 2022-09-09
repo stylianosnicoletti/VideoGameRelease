@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Game } from '../interfaces/game';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -8,21 +11,56 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./categories.page.scss'],
 })
 export class CategoriesPage implements OnInit {
-  public categories: string;
+  categories: string;
+  listOfGames: Game[];
+  listOfSubscriptions: Subscription[] = [];
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private apiService: ApiService
+    private _activatedRoute: ActivatedRoute,
+    private _apiService: ApiService,
   ) {}
 
   async ngOnInit() {
+    console.log('ngOnInit');
     //needs a guard in case other than 4 paths is provided!!
-    this.categories = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.activatedRoute.snapshot.paramMap);
+    this.categories = this._activatedRoute.snapshot.paramMap.get('id');
+    //console.log(this.activatedRoute.snapshot.paramMap);
+    this.listOfSubscriptions.push(
+      this._apiService.getGames()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        this.listOfGames = data;
+        this.listOfGames.forEach((game) => {
+          //console.log(game.name);
+        });
+      })
+    );
+  }
 
+  async ionViewWillEnter() {
+    console.log('ionViewWillEnter  ' + this.categories);
+  }
 
-      this.apiService.getGames().subscribe((data) => {
-        console.log(data);
-      });
+  async ionViewDidEnter() {
+    console.log('ionViewDidEnter  ' + this.categories);
+  }
+
+  async ionViewWillLeave() {
+    console.log('ionViewWillLeave  ' + this.categories);
+  }
+
+  async ionViewDidLeave() {
+    console.log('ionViewDidLeave  ' + this.categories);
+  }
+
+  async ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log('ngOnDestroy  ' + this.categories);
+  }
+
+  async gameClicked(event) {
+    console.log(event);
   }
 }

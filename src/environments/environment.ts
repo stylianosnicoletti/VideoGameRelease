@@ -1,6 +1,7 @@
 export const environment = {
   //appVersion: require('../../package.json').version,
   production: false,
+  awsProxyUrl: 'https://5qwzyqsvol.execute-api.us-west-2.amazonaws.com/production/',
   awsProxyApiKey: '***REMOVED***',
   firebase: {
     apiKey: "***REMOVED***",
