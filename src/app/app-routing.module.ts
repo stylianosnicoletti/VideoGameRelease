@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'categories/All',
+    redirectTo: 'platforms/all',
     pathMatch: 'full'
   },
   {
-    path: 'categories/:id',
-    loadChildren: () => import('./categories/categories.module').then( m => m.CategoriesPageModule)
+    path: 'platforms/:id',
+    loadChildren: () => import('./platforms/platforms.module').then( m => m.PlatformsPageModule)
   }
 ];
 
