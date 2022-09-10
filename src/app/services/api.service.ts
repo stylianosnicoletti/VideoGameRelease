@@ -46,7 +46,7 @@ export class ApiService {
   public getReleaseDates(platformIds: PlatformId[], take: Number, offset: Number): Observable<any> {
     return this.httpClient.post<any>(
       this._proxyUrl + 'v4/release_dates',
-      `fields game.*, *; where platform = (${platformIds}) & date > 1538129354 & human = *", 20"*; sort date desc; limit 20; offset 0;`,
+      `fields game.*,game.artworks.*,game.cover.*,platform.*, *; where platform = (${platformIds}) & date > 1538129354 & human = *", 20"*; sort date desc; limit 20; offset 0;`,
       this._httpOptions
     );
   }
