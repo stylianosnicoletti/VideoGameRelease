@@ -17,7 +17,7 @@ export class ApiService {
     }),
   };
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   public getGames(ids: string[]): Observable<Game[]> {
     return this.httpClient.post<Game[]>(
@@ -27,20 +27,28 @@ export class ApiService {
     );
   }
 
-    public getReleaseDatesv2(platform: Number, take: Number, offset: Number): Observable<any> {
-      return this.httpClient.post<any>(
-        this._proxyUrl + 'v4/release_dates',
-        `fields *; where game.platforms = 6 & date > 1538129354 & human = *", 20"*; sort date desc; limit 22; offset 50;`,
-        this._httpOptions
-      );
+  public getReleaseDatesv2(platform: Number, take: Number, offset: Number): Observable<any> {
+    return this.httpClient.post<any>(
+      this._proxyUrl + 'v4/release_dates',
+      `fields *; where game.platforms = 6 & date > 1538129354 & human = *", 20"*; sort date desc; limit 22; offset 50;`,
+      this._httpOptions
+    );
   }
 
-  public getReleaseDates(platformIds: PlatformId[], take: Number, offset: Number): Observable<any> {
+  public getReleaseDatesv3(platformIds: PlatformId[], take: Number, offset: Number): Observable<any> {
     return this.httpClient.post<any>(
       this._proxyUrl + 'v4/platforms',
       `fields *; where id = (${platformIds}); limit 160;`,
       this._httpOptions
     );
-}
+  }
+
+  public getReleaseDates(platformIds: PlatformId[], take: Number, offset: Number): Observable<any> {
+    return this.httpClient.post<any>(
+      this._proxyUrl + 'v4/release_dates',
+      `fields game.*, *; where platform = (${platformIds}) & date > 1538129354 & human = *", 20"*; sort date desc; limit 20; offset 0;`,
+      this._httpOptions
+    );
+  }
 }
 

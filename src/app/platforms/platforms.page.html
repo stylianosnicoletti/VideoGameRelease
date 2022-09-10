@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ platforms }} Games</ion-title>
+    <ion-title>{{ platformDetails.Title }} Games</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,14 +19,14 @@
 <!-- Skeleton: List filtered items -->
 <ng-template #showListOfGames>
   <ion-item
-    *ngFor="let game of listOfGames | keyvalue: asIsOrder"
+    *ngFor="let x of listOfGames | keyvalue: asIsOrder"
     (click)="gameClicked(game.value.name);"
   >
     <ion-label class="ion-text-wrap">
       <h2>
-        <strong>{{ game.value.name }}</strong>
-        <strong>{{ game.value.release_dates }}</strong>    
+        <strong>{{ x.value.game.name }}</strong>
       </h2>
+
     </ion-label>
   </ion-item>
 </ng-template>
