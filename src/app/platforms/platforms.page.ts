@@ -77,8 +77,13 @@ export class PlatformsPage implements OnInit {
     this.ngUnsubscribe.complete();
     console.log(event)
     this.initialise();
-
-
       ;
   }
+
+    /**
+   *  Maintain insertion order in Map when using keyvalue pipe.
+   */
+     asIsOrder(a, b) {
+      return 1;
+    }
 }
