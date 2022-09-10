@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'platforms/all',
+    redirectTo: 'platforms/All',
     pathMatch: 'full'
   },
   {
