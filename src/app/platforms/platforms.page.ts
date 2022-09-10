@@ -28,6 +28,7 @@ export class PlatformsPage implements OnInit {
     //needs a guard in case other than 4 paths is provided!!
     this.platformDetails = PlatformsMap[`${this._activatedRoute.snapshot.paramMap.get('id')}`];
     console.log(this._activatedRoute);
+    console.log(this._activatedRoute.snapshot.paramMap.get('id'));
     console.log(this.platformDetails);
     await this.initialise();
   }
