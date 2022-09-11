@@ -14,9 +14,11 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./platforms.page.scss'],
 })
 export class PlatformsPage implements OnInit {
-  platformDetails: PlatformDetails;
-  listOfGames: any[] = [];
+  private platformDetails: PlatformDetails;
+  private listOfGames: any[] = [];
   private ngUnsubscribe = new Subject<void>();
+  private offset: number = 0;
+  private take: number = 20;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -24,29 +26,22 @@ export class PlatformsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log('ngOnInit');
+    //console.log('ngOnInit');
     //needs a guard in case other than 4 paths is provided!!
     this.platformDetails = PlatformsMap[`${this._activatedRoute.snapshot.paramMap.get('id')}`];
-    console.log(this._activatedRoute);
-    console.log(this._activatedRoute.snapshot.paramMap.get('id'));
-    console.log(this.platformDetails);
+    //console.log(this._activatedRoute);
+    //console.log(this._activatedRoute.snapshot.paramMap.get('id'));
+    //console.log(this.platformDetails);
     await this.initialise();
   }
 
   async initialise() {
-    //this._apiService.getGames([])
-     // .pipe(takeUntil(this.ngUnsubscribe))
-     // .subscribe((data) => {
-      //  this.listOfGames = [ ...this.listOfGames, ...data];
-      //  this.listOfGames.forEach((game) => {
-          //console.log(game.name);
-      //  });
-      //});
-      this._apiService.getReleaseDates(this.platformDetails.PlatformIds,0,0)
+      this._apiService.getReleaseDates(this.platformDetails.PlatformIds, this.take, this.offset)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
-          this.listOfGames = [ ...this.listOfGames, ...data];
-          console.log(data);
+          this.listOfGames.push(...data);
+          //console.log(this.listOfGames);
+          //console.log(data);
       });
   }
 
@@ -72,13 +67,31 @@ export class PlatformsPage implements OnInit {
     //console.log('ngOnDestroy  ' + this.platformDetails);
   }
 
-  async gameClicked(event) {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-    console.log(event)
-    this.initialise();
-      ;
+  async gameClicked(gameId) {
+    //console.log(gameId);
   }
+
+   loadMoreData(event){
+    setTimeout(() => {
+      //console.log('Done');
+
+      this.offset += this.take ;
+      this.ngUnsubscribe.next();
+      this.ngUnsubscribe.complete();
+      
+      
+      //console.log(this.offset);
+      this.initialise();
+      event.target.complete();
+      // App logic to determine max data that can be loaded
+      // and disable the infinite scroll
+      if (this.listOfGames.length > 500) {
+        event.target.disabled = true;
+
+      }
+    }, 420);
+
+   }
 
     /**
    *  Maintain insertion order in Map when using keyvalue pipe.

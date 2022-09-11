@@ -8,86 +8,94 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div>
+  <div *ngIf="listOfGames.length == 0; then showLoading else showListOfGames">
     <!-- Normal screen -->
-    <ion-list *ngIf="listOfGames.length == 0; then showLoading else showListOfGames">
-      <!-- Skeleton in here-->
-    </ion-list>
+
+    <!-- Skeleton in here-->
+
   </div>
 </ion-content>
 
 <!-- Skeleton: List filtered items -->
 <ng-template #showListOfGames>
-  <ion-item *ngFor="let x of listOfGames | keyvalue: asIsOrder" (click)="gameClicked(game.value.name);">
-    <ion-thumbnail slot="start" style="width: 120px; height: 120px;">
-      <ion-img *ngIf="x.value.game?.cover?.url != null"
-        src='{{ x.value.game.cover.url.replace("t_thumb", "t_cover_big") }}' style="width: 120px; height: 120px;">
-      </ion-img>
 
-    </ion-thumbnail>
-    <ion-card>
+  <ion-list>
+    <ion-item *ngFor="let x of listOfGames | keyvalue: asIsOrder" (click)="gameClicked(x.value.game.id);">
+      <ion-thumbnail slot="start" style="width: 120px; height: 120px;">
+        <ion-img *ngIf="x.value.game?.cover?.url != null"
+          src='{{ x.value.game.cover.url.replace("t_thumb", "t_cover_big") }}' style="width: 120px; height: 120px;">
+        </ion-img>
+      </ion-thumbnail>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>{{ x.value.human }}</ion-card-subtitle>
+          <ion-card-title>{{ x.value.game.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content *ngIf="x.value.game?.summary == null">
+          <ion-chip *ngIf="platformDetails.Title === 'All'">{{ x.value.platform.name }}</ion-chip>
+        </ion-card-content>
+        <ion-card-content *ngIf="x.value.game?.summary != null && x.value.game?.summary.length < 200;">
+          {{ x.value.game.summary }} <br>
+          <ion-chip *ngIf="platformDetails.Title === 'All'">{{ x.value.platform.name }}</ion-chip>
+        </ion-card-content>
+        <ion-card-content *ngIf="x.value.game?.summary != null && x.value.game?.summary.length >= 200;">
+          {{ x.value.game.summary.substring(0,200) }}.. <br>
+          <ion-chip *ngIf="platformDetails.Title === 'All'">{{ x.value.platform.name }}</ion-chip>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
 
-      <ion-card-header>
+  </ion-list>
 
-        <ion-card-subtitle>{{ x.value.human }}</ion-card-subtitle>
-
-        <ion-card-title>{{ x.value.game.name }}</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content *ngIf="x.value.game?.summary == null">
-        <ion-chip *ngIf="platformDetails.Title === 'All'">{{ x.value.platform.name }}</ion-chip>
-      </ion-card-content>
-
-      <ion-card-content *ngIf="x.value.game?.summary != null && x.value.game?.summary.length < 200;">
-        {{ x.value.game.summary }} <br>
-        <ion-chip *ngIf="platformDetails.Title === 'All'">{{ x.value.platform.name }}</ion-chip>
-      </ion-card-content>
-
-      <ion-card-content *ngIf="x.value.game?.summary != null && x.value.game?.summary.length >= 200;">
-        {{ x.value.game.summary.substring(0,200) }}.. <br>
-        <ion-chip *ngIf="platformDetails.Title === 'All'">{{ x.value.platform.name }}</ion-chip>
-      </ion-card-content>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 
-    </ion-card>
-  </ion-item>
+
+
 </ng-template>
 
 <!-- Skeleton Loading screen -->
 <ng-template #showLoading>
-  <ion-item>
-    <ion-label class="ion-text-wrap">
-      <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label class="ion-text-wrap">
-      <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label class="ion-text-wrap">
-      <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label class="ion-text-wrap">
-      <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label class="ion-text-wrap">
-      <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
+  <ion-list>
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <ion-skeleton-text animated style="width: 90%; height: 21px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 40%; height: 15px"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80%; height: 14px"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ng-template>
