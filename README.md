@@ -1,1 +1,3 @@
-# GameBlast
+# VideoGameRelease
+
+https://www.videogamerelease.com
