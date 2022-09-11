@@ -1,6 +1,6 @@
 {
-  "name": "GameBlast",
-  "short_name": "GameBlast",
+  "name": "VideoGameRelease",
+  "short_name": "VideoGameRelease",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
