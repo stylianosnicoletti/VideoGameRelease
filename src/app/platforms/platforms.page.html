@@ -22,7 +22,7 @@
         approxItemHeight="200px"
         #listedLoadedPlacesScroll
       >
-        <ion-card *virtualItem="let x">
+        <ion-card *virtualItem="let x" (click)="gameClicked(x.game.id)">
           <ion-item>
             <ion-avatar slot="start">
               <ion-img
@@ -37,6 +37,8 @@
               <ion-card-title text-wrap style="font-size: 18px"
                 >{{x.game.name}}</ion-card-title
               >
+              <p></p>
+              <ion-router-link href="{{x.game.url}}" class="underline">IGDB</ion-router-link>
               <p></p>
               <ion-badge *ngIf="platformDetails.Title === 'All'"
                 >{{ x.platform.abbreviation }}</ion-badge
