@@ -32,3 +32,12 @@ ion-avatar {
   height: 135px;  
   --border-radius: 3px;
 }
+
+.underline {
+  text-decoration: underline;
+}
+
+ion-badge {
+  --background: purple;
+  --color: white;
+}

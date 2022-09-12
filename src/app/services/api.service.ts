@@ -22,7 +22,7 @@ export class ApiService {
 
     return this.httpClient.post<ReleaseDate[]>(
       this._proxyUrl + 'v4/release_dates',
-      `fields human, platform.abbreviation, game.id, game.name, game.summary, game.cover.url; where platform = (${platformIds}) & date > 1538129354 & human = *", 20"*; sort date desc; limit ${take}; offset ${offset};`,
+      `fields human, platform.abbreviation, game.id, game.name, game.url, game.cover.url; where platform = (${platformIds}) & date > 1538129354 & human = *", 20"*; sort date desc; limit ${take}; offset ${offset};`,
       this._httpOptions
     );
   }
