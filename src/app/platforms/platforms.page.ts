@@ -14,11 +14,12 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./platforms.page.scss'],
 })
 export class PlatformsPage implements OnInit {
-  private platformDetails: PlatformDetails;
-  private listOfGames: ReleaseDate[] = [];
-  private ngUnsubscribe = new Subject<void>();
-  private offset: number = 0;
-  private take: number = 20;
+  
+  platformDetails: PlatformDetails;
+  listOfGames: ReleaseDate[] = [];
+  ngUnsubscribe = new Subject<void>();
+  offset: number = 0;
+  take: number = 20;
 
   @ViewChild('listedLoadedPlacesScroll') listedLoadedPlacesScroll: IonVirtualScroll;
 
