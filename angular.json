@@ -31,8 +31,8 @@
               },
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
-            "scripts": [],
+            "styles": ["src/theme/variables.scss", "src/global.scss", "node_modules/cookieconsent/build/cookieconsent.min.css" ],
+            "scripts": ["node_modules/cookieconsent/build/cookieconsent.min.js"],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
