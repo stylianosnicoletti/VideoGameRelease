@@ -38,7 +38,7 @@
                 >{{x.game.name}}</ion-card-title
               >
               <p></p>
-              <ion-router-link href="{{x.game.url}}" class="underline">IGDB</ion-router-link>
+              <a routerLink="{{x.game.url}}" class="underline">IGDB</a>
               <p></p>
               <ion-badge *ngIf="platformDetails.Title === 'All'"
                 >{{ x.platform.abbreviation }}</ion-badge
