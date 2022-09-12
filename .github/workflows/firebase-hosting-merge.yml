@@ -29,27 +29,10 @@ jobs:
       run: |
         npm install
         ionic build --prod
-    - name: Archive Build
-      uses: actions/upload-artifact@v2
+    - name: Deploy to Firebase
+    - uses: FirebaseExtended/action-hosting-deploy@v0
       with:
-        name: www 
-        path: www # The name of the public folder from firebase
-        
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Download Build
-        uses: actions/download-artifact@v2
-        with:
-          name: www
-          path: www
-      - name: Deploy to Firebase
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAMEBLAST_A6F01 }}'
-          channelId: live
-          projectId: gameblast-a6f01
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAMEBLAST_A6F01 }}'
+        channelId: live
+        projectId: gameblast-a6f01
