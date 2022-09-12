@@ -1,10 +1,12 @@
+import { Cover } from "./cover";
+
 export interface Game {
   id: number;
   age_ratings: number[];
   alternative_names: number[];
   category: number;
   collection: number;
-  cover: number;
+  cover: Cover;
   created_at: number;
   external_games: number[];
   first_release_date: number;

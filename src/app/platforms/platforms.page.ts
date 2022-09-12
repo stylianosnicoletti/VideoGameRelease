@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PlatformsMap } from '../constants/platformsMap';
 import { PlatformDetails } from '../interfaces/platformDetails';
+import { ReleaseDate } from '../interfaces/igdb/releaseDate';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { ApiService } from '../services/api.service';
 })
 export class PlatformsPage implements OnInit {
   private platformDetails: PlatformDetails;
-  private listOfGames: any[] = [];
+  private listOfGames: ReleaseDate[] = [];
   private ngUnsubscribe = new Subject<void>();
   private offset: number = 0;
   private take: number = 20;
