@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { IonVirtualScroll } from '@ionic/angular';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PlatformsMap } from '../constants/platformsMap';
-import { PlatformId } from '../enums/platformId';
-import { Game } from '../interfaces/game';
 import { PlatformDetails } from '../interfaces/platformDetails';
 import { ApiService } from '../services/api.service';
 
@@ -20,15 +19,19 @@ export class PlatformsPage implements OnInit {
   private offset: number = 0;
   private take: number = 20;
 
+  @ViewChild('listedLoadedPlacesScroll') listedLoadedPlacesScroll: IonVirtualScroll;
+
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _apiService: ApiService,
-  ) { }
+    private _apiService: ApiService
+  ) {
+  }
 
   async ngOnInit() {
     //console.log('ngOnInit');
     //needs a guard in case other than 4 paths is provided!!
-    this.platformDetails = PlatformsMap[`${this._activatedRoute.snapshot.paramMap.get('id')}`];
+    this.platformDetails =
+      PlatformsMap[`${this._activatedRoute.snapshot.paramMap.get('id')}`];
     //console.log(this._activatedRoute);
     //console.log(this._activatedRoute.snapshot.paramMap.get('id'));
     //console.log(this.platformDetails);
@@ -36,12 +39,17 @@ export class PlatformsPage implements OnInit {
   }
 
   async initialise() {
-      this._apiService.getReleaseDates(this.platformDetails.PlatformIds, this.take, this.offset)
+    this._apiService
+      .getReleaseDates(this.platformDetails.PlatformIds, this.take, this.offset)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data) => {
-          this.listOfGames.push(...data);
-          //console.log(this.listOfGames);
-          //console.log(data);
+        this.listOfGames.push(...data);
+        //console.log(this.listOfGames);
+
+        // Update virtual scroll when new items are pushed.
+        this.listedLoadedPlacesScroll?.checkEnd(); 
+        
+        //console.log(data);
       });
   }
 
@@ -71,32 +79,22 @@ export class PlatformsPage implements OnInit {
     //console.log(gameId);
   }
 
-   loadMoreData(event){
-    setTimeout(() => {
-      //console.log('Done');
-
-      this.offset += this.take ;
+  loadMoreData(event) {
+    setTimeout(async () => {
+      this.offset += this.take;
       this.ngUnsubscribe.next();
       this.ngUnsubscribe.complete();
-      
-      
+
       //console.log(this.offset);
-      this.initialise();
+      await this.initialise();
       event.target.complete();
+
       // App logic to determine max data that can be loaded
       // and disable the infinite scroll
       if (this.listOfGames.length > 500) {
         event.target.disabled = true;
-
       }
     }, 420);
+  }
 
-   }
-
-    /**
-   *  Maintain insertion order in Map when using keyvalue pipe.
-   */
-     asIsOrder(a, b) {
-      return 1;
-    }
 }
