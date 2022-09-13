@@ -30,6 +30,11 @@
                 src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'
               >
               </ion-img>
+              <ion-img
+              *ngIf="x.game?.cover?.url == null"
+              src='assets/icons/icon-192x192.png'
+            >
+            </ion-img>
             </ion-avatar>
             <ion-card-header>
               <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
@@ -40,9 +45,7 @@
               <p></p>
               <a href="{{x.game.url}}" class="underline">IGDB</a>
               <p></p>
-              <ion-badge *ngIf="platformDetails.Title === 'All'"
-                >{{ x.platform.abbreviation }}</ion-badge
-              >
+              <img src='assets/platform-icons/{{ x.platform.slug }}.svg' class="platform_theme" >
             </ion-card-header>
           </ion-item>
         </ion-card>
