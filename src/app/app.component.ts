@@ -56,12 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initializeApplication();
   }
 
-
-  handleClickSound() {
-    let x = <HTMLVideoElement>document.getElementById("myAudio");
-    x.play();
-  }
-
   ngOnInit() {
     // subscribe to cookieconsent observables to react to main events
     this.popupOpenSubscription = this._ccService.popupOpen$.subscribe(() => {
@@ -146,5 +140,10 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
     }
+  }
+
+  handleClickSound() {
+    let x = <HTMLVideoElement>document.getElementById("myAudio");
+    x.play();
   }
 }
