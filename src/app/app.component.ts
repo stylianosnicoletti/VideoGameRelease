@@ -2,13 +2,10 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { environment } from '../environments/environment';
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import {
-  NgcCookieConsentService,
-  NgcNoCookieLawEvent,
-  NgcInitializeEvent,
-  NgcStatusChangeEvent,
-} from "ngx-cookieconsent";
+import { NgcCookieConsentService, NgcNoCookieLawEvent, NgcInitializeEvent, NgcStatusChangeEvent } from "ngx-cookieconsent";
 import { Subscription } from "rxjs";
+import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
+import { filter, map } from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -51,44 +48,49 @@ export class AppComponent implements OnInit, OnDestroy {
     { title: 'iOS', url: '/platforms/IOS', icon: 'assets/icon/IOS.svg', theme: 'platform_theme' },
 
   ];
+
   constructor(
-    private ccService: NgcCookieConsentService
+    private readonly _swUpdate: SwUpdate,
+    private _ccService: NgcCookieConsentService
   ) {
     this.initializeApplication();
   }
+
+
   handleClickSound() {
     let x = <HTMLVideoElement>document.getElementById("myAudio");
     x.play();
   }
+
   ngOnInit() {
     // subscribe to cookieconsent observables to react to main events
-    this.popupOpenSubscription = this.ccService.popupOpen$.subscribe(() => {
+    this.popupOpenSubscription = this._ccService.popupOpen$.subscribe(() => {
       // you can use this.ccService.getConfig() to do stuff...
     });
 
-    this.popupCloseSubscription = this.ccService.popupClose$.subscribe(() => {
+    this.popupCloseSubscription = this._ccService.popupClose$.subscribe(() => {
       // you can use this.ccService.getConfig() to do stuff...
     });
 
-    this.initializeSubscription = this.ccService.initialize$.subscribe(
+    this.initializeSubscription = this._ccService.initialize$.subscribe(
       (event: NgcInitializeEvent) => {
         // you can use this.ccService.getConfig() to do stuff...
       }
     );
 
-    this.statusChangeSubscription = this.ccService.statusChange$.subscribe(
+    this.statusChangeSubscription = this._ccService.statusChange$.subscribe(
       (event: NgcStatusChangeEvent) => {
         // you can use this.ccService.getConfig() to do stuff...
       }
     );
 
-    this.revokeChoiceSubscription = this.ccService.revokeChoice$.subscribe(
+    this.revokeChoiceSubscription = this._ccService.revokeChoice$.subscribe(
       () => {
         // you can use this.ccService.getConfig() to do stuff...
       }
     );
 
-    this.noCookieLawSubscription = this.ccService.noCookieLaw$.subscribe(
+    this.noCookieLawSubscription = this._ccService.noCookieLaw$.subscribe(
       (event: NgcNoCookieLawEvent) => {
         // you can use this.ccService.getConfig() to do stuff...
       }
@@ -106,8 +108,43 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApplication() {
-    // Initialize Firebase
+    // Sw update check.
+    const updatesAvailable = this._swUpdate.versionUpdates.pipe(
+      filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
+      map(evt => ({
+        type: 'UPDATE_AVAILABLE',
+        current: evt.currentVersion,
+        available: evt.latestVersion,
+      })));
+
+    if (updatesAvailable) {
+      updatesAvailable.subscribe(async () => {
+        if (confirm('A new version is available, do you want to load it?')) {
+          await this.forceSwUnregisterAndUpdate();
+        }
+      })
+    }
+
+    // Initialize Firebase.
     const app = initializeApp(environment.firebase);
     const analytics = getAnalytics(app);
+  }
+
+  async forceSwUnregisterAndUpdate() {
+    if ("serviceWorker" in navigator) {
+      console.log("serviceWorker in navigator");
+      await navigator.serviceWorker
+        .getRegistrations()
+        .then(async (registrations) => {
+          console.log(registrations.length);
+          for (let registration of registrations) {
+            console.log(registration);
+            registration.unregister().then((unregResult) => {
+              console.log(unregResult);
+              window.location.reload();
+            });
+          }
+        });
+    }
   }
 }
