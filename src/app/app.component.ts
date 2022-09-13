@@ -102,6 +102,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApplication() {
+
+    this._swUpdate.versionUpdates.subscribe(evt => {
+      switch (evt.type) {
+        case 'VERSION_DETECTED':
+          console.log(`Downloading new app version: ${evt.version.hash}`);
+          break;
+        case 'VERSION_READY':
+          console.log(`Current app version: ${evt.currentVersion.hash}`);
+          console.log(`New app version ready for use: ${evt.latestVersion.hash}`);
+          break;
+        case 'VERSION_INSTALLATION_FAILED':
+          console.log(`Failed to install app version '${evt.version.hash}': ${evt.error}`);
+          break;
+      }
+    });
+    
     // Sw update check.
     const updatesAvailable = this._swUpdate.versionUpdates.pipe(
       filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
@@ -140,10 +156,5 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
     }
-  }
-
-  handleClickSound() {
-    let x = <HTMLVideoElement>document.getElementById("myAudio");
-    x.play();
   }
 }
