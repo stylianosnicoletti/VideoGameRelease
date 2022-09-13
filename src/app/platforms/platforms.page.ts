@@ -101,4 +101,8 @@ export class PlatformsPage implements OnInit {
     }, 500);
   }
 
+  async goToInstagramLink() {
+    window.location.href = 'https://www.instagram.com/video_game_release'
+  }
+
 }
