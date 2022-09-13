@@ -98,7 +98,7 @@ export class PlatformsPage implements OnInit {
       if (this.listOfGames.length > 500) {
         event.target.disabled = true;
       }
-    }, 420);
+    }, 500);
   }
 
 }
