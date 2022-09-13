@@ -71,7 +71,7 @@ export class PlatformsPage implements OnInit {
       .subscribe((data) => {
         //console.log(data);
         this.listOfGames.push(...data);
-        console.log(this.listOfGames);
+        //console.log(this.listOfGames);
         // Update virtual scroll when new items are pushed.
         this.listedLoadedPlacesScroll?.checkEnd();
       });
