@@ -26,29 +26,29 @@ export class AppComponent implements OnInit, OnDestroy {
   private noCookieLawSubscription: Subscription;
 
   public appPages = [
-    { title: 'All', url: '/platforms/All', icon: 'assets/icon/All.svg', theme: 'platform_theme_all' },
+    { title: 'All', url: '/platforms/All', icon: 'assets/platform-icons/All.svg', theme: 'platform_theme_all' },
 
-    { title: 'Windows', url: '/platforms/Windows', icon: 'assets/icon/Windows.svg', theme: 'platform_theme' },
-    { title: 'Linux', url: '/platforms/Linux', icon: 'assets/icon/Linux.svg', theme: 'platform_theme' },
-    { title: 'Stadia', url: '/platforms/Stadia', icon: 'assets/icon/Stadia.svg', theme: 'platform_theme' },
+    { title: 'Windows', url: '/platforms/Windows', icon: 'assets/platform-icons/Windows.svg', theme: 'platform_theme' },
+    { title: 'Linux', url: '/platforms/Linux', icon: 'assets/platform-icons/Linux.svg', theme: 'platform_theme' },
+    { title: 'Stadia', url: '/platforms/Stadia', icon: 'assets/platform-icons/Stadia.svg', theme: 'platform_theme' },
 
-    { title: 'PlayStation 5', url: '/platforms/PS5', icon: 'assets/icon/PS5.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 4', url: '/platforms/PS4', icon: 'assets/icon/PS4.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 3', url: '/platforms/PS3', icon: 'assets/icon/PS3.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 2', url: '/platforms/PS2', icon: 'assets/icon/PS2.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 1', url: '/platforms/PS1', icon: 'assets/icon/PS1.svg', theme: 'platform_theme' },
+    { title: 'PlayStation 5', url: '/platforms/PS5', icon: 'assets/platform-icons/PS5.svg', theme: 'platform_theme' },
+    //{ title: 'PlayStation 4', url: '/platforms/PS4', icon: 'assets/platform-icons/PS4.svg', theme: 'platform_theme' },
+    //{ title: 'PlayStation 3', url: '/platforms/PS3', icon: 'assets/platform-icons/PS3.svg', theme: 'platform_theme' },
+    //{ title: 'PlayStation 2', url: '/platforms/PS2', icon: 'assets/platform-icons/PS2.svg', theme: 'platform_theme' },
+    //{ title: 'PlayStation 1', url: '/platforms/PS1', icon: 'assets/platform-icons/PS1.svg', theme: 'platform_theme' },
 
-    { title: 'Xbox Series X', url: '/platforms/XSX', icon: 'assets/icon/XSX.svg', theme: 'platform_theme' },
-    //{ title: 'Xbox One', url: '/platforms/XONE', icon: 'assets/icon/XONE.svg', theme: 'platform_theme' },
-    //{ title: 'Xbox 360', url: '/platforms/X360', icon: 'assets/icon/X360.svg', theme: 'platform_theme' },
-    //{ title: 'Xbox', url: '/platforms/XBOX', icon: 'assets/icon/XBOX.svg', theme: 'platform_theme' },
+    { title: 'Xbox Series X', url: '/platforms/XSX', icon: 'assets/platform-icons/XSX.svg', theme: 'platform_theme' },
+    //{ title: 'Xbox One', url: '/platforms/XONE', icon: 'assets/platform-icons/XONE.svg', theme: 'platform_theme' },
+    //{ title: 'Xbox 360', url: '/platforms/X360', icon: 'assets/platform-icons/X360.svg', theme: 'platform_theme' },
+    //{ title: 'Xbox', url: '/platforms/XBOX', icon: 'assets/platform-icons/XBOX.svg', theme: 'platform_theme' },
 
-    { title: 'Nintendo Switch', url: '/platforms/NX', icon: 'assets/icon/NX.svg', theme: 'platform_theme' },
-    //{ title: 'Nintendo Wii U', url: '/platforms/WIIU', icon: 'assets/icon/WIIU.svg', theme: 'platform_theme' },
-    //{ title: 'Nintendo Wii', url: '/platforms/WII', icon: 'assets/icon/WII.svg', theme: 'platform_theme' },
+    { title: 'Nintendo Switch', url: '/platforms/NX', icon: 'assets/platform-icons/NX.svg', theme: 'platform_theme' },
+    //{ title: 'Nintendo Wii U', url: '/platforms/WIIU', icon: 'assets/platform-icons/WIIU.svg', theme: 'platform_theme' },
+    //{ title: 'Nintendo Wii', url: '/platforms/WII', icon: 'assets/platform-icons/WII.svg', theme: 'platform_theme' },
 
-    { title: 'Android', url: '/platforms/Android', icon: 'assets/icon/Android.svg', theme: 'platform_theme' },
-    { title: 'iOS', url: '/platforms/IOS', icon: 'assets/icon/IOS.svg', theme: 'platform_theme' },
+    { title: 'Android', url: '/platforms/Android', icon: 'assets/platform-icons/Android.svg', theme: 'platform_theme' },
+    { title: 'iOS', url: '/platforms/IOS', icon: 'assets/platform-icons/IOS.svg', theme: 'platform_theme' },
 
   ];
   constructor(
