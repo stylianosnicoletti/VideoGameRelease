@@ -17,135 +17,186 @@
 
 <!-- Skeleton: List filtered items -->
 <ng-template #showListOfGames>
-  <ion-content [fullscreen]="true">
-    <ion-list>
-      <ion-virtual-scroll
-        [items]="listOfGames"
-        approxItemHeight="200px"
-        #listedLoadedPlacesScroll
-      >
-        <ion-card *virtualItem="let x" (click)="gameClicked(x.game.id)">
-          <ion-item>
-            <ion-avatar slot="start">
-              <ion-img
-                *ngIf="x.game?.cover?.url != null"
-                src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'
-              >
-              </ion-img>
-              <ion-img
-              *ngIf="x.game?.cover?.url == null"
-              src='assets/icons/icon-192x192.png'
-            >
+
+  <ion-content>
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content>
+      </ion-refresher-content>
+    </ion-refresher>
+
+    <!--Ionic Framework requires that features such as collapsible large titles,
+      ion-infinite-scroll, ion-refresher, and ion-reorder-group be used within an ion-content.
+      To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
+    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="145" minBufferPx="900" maxBufferPx="1350">
+
+      <ion-card *cdkVirtualFor="let x of listOfGames" (click)="gameClicked(x.game.id)">
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-img *ngIf="x.game?.cover?.url != null" src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
             </ion-img>
-            </ion-avatar>
-            <ion-card-header>
-              <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
+            <ion-img *ngIf="x.game?.cover?.url == null" src='assets/icons/icon-192x192.png'>
+            </ion-img>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
+            <ion-card-title text-wrap style="font-size: 18px">{{x.game.name}}</ion-card-title>
+            <p></p>
+            <a href="{{x.game.url}}" class="underline">IGDB</a>
+            <p></p>
+            <img src='assets/platform-icons/{{ x.platform.slug }}.svg' class="platform_theme">
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
 
-              <ion-card-title text-wrap style="font-size: 18px"
-                >{{x.game.name}}</ion-card-title
-              >
-              <p></p>
-              <a href="{{x.game.url}}" class="underline">IGDB</a>
-              <p></p>
-              <img src='assets/platform-icons/{{ x.platform.slug }}.svg' class="platform_theme" >
-            </ion-card-header>
-          </ion-item>
-        </ion-card>
-      </ion-virtual-scroll>
-    </ion-list>
+      <ion-infinite-scroll threshold="1200px" (ionInfinite)="loadMoreData($event)">
+        <ion-infinite-scroll-content>
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
 
-
-    <ion-infinite-scroll threshold="50%" (ionInfinite)="loadMoreData($event)">
-      <ion-infinite-scroll-content loadingSpinner="dots">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </cdk-virtual-scroll-viewport>
   </ion-content>
+
 </ng-template>
 
 <!-- Skeleton Loading screen -->
 <ng-template #showLoading>
-  <ion-content [fullscreen]="true">
-    <ion-list>
-      <ion-item>
-        <ion-label class="ion-text-wrap">
-          <ion-skeleton-text
-            animated
-            style="width: 90%; height: 21px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 40%; height: 15px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 80%; height: 14px"
-          ></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label class="ion-text-wrap">
-          <ion-skeleton-text
-            animated
-            style="width: 90%; height: 21px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 40%; height: 15px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 80%; height: 14px"
-          ></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label class="ion-text-wrap">
-          <ion-skeleton-text
-            animated
-            style="width: 90%; height: 21px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 40%; height: 15px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 80%; height: 14px"
-          ></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label class="ion-text-wrap">
-          <ion-skeleton-text
-            animated
-            style="width: 90%; height: 21px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 40%; height: 15px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 80%; height: 14px"
-          ></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label class="ion-text-wrap">
-          <ion-skeleton-text
-            animated
-            style="width: 90%; height: 21px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 40%; height: 15px"
-          ></ion-skeleton-text>
-          <ion-skeleton-text
-            animated
-            style="width: 80%; height: 14px"
-          ></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+  <ion-content>
+
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 92px; height: 16px">
+              </ion-skeleton-text>
+            </ion-card-subtitle>
+            <ion-card-title>
+              <ion-skeleton-text animated style="width: 180px; height: 22px">
+              </ion-skeleton-text>
+            </ion-card-title>
+            <p></p>
+            <a>
+              <ion-skeleton-text animated style="width: 40px; height: 18px">
+              </ion-skeleton-text>
+            </a>
+            <p></p>
+            <ion-skeleton-text animated style="width: 22px; height: 22px">
+            </ion-skeleton-text>
+            <img>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 92px; height: 16px">
+              </ion-skeleton-text>
+            </ion-card-subtitle>
+            <ion-card-title>
+              <ion-skeleton-text animated style="width: 180px; height: 22px">
+              </ion-skeleton-text>
+            </ion-card-title>
+            <p></p>
+            <a>
+              <ion-skeleton-text animated style="width: 40px; height: 18px">
+              </ion-skeleton-text>
+            </a>
+            <p></p>
+            <ion-skeleton-text animated style="width: 22px; height: 22px">
+            </ion-skeleton-text>
+            <img>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 92px; height: 16px">
+              </ion-skeleton-text>
+            </ion-card-subtitle>
+            <ion-card-title>
+              <ion-skeleton-text animated style="width: 180px; height: 22px">
+              </ion-skeleton-text>
+            </ion-card-title>
+            <p></p>
+            <a>
+              <ion-skeleton-text animated style="width: 40px; height: 18px">
+              </ion-skeleton-text>
+            </a>
+            <p></p>
+            <ion-skeleton-text animated style="width: 22px; height: 22px">
+            </ion-skeleton-text>
+            <img>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 92px; height: 16px">
+              </ion-skeleton-text>
+            </ion-card-subtitle>
+            <ion-card-title>
+              <ion-skeleton-text animated style="width: 180px; height: 22px">
+              </ion-skeleton-text>
+            </ion-card-title>
+            <p></p>
+            <a>
+              <ion-skeleton-text animated style="width: 40px; height: 18px">
+              </ion-skeleton-text>
+            </a>
+            <p></p>
+            <ion-skeleton-text animated style="width: 22px; height: 22px">
+            </ion-skeleton-text>
+            <img>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 92px; height: 16px">
+              </ion-skeleton-text>
+            </ion-card-subtitle>
+            <ion-card-title>
+              <ion-skeleton-text animated style="width: 180px; height: 22px">
+              </ion-skeleton-text>
+            </ion-card-title>
+            <p></p>
+            <a>
+              <ion-skeleton-text animated style="width: 40px; height: 18px">
+              </ion-skeleton-text>
+            </a>
+            <p></p>
+            <ion-skeleton-text animated style="width: 22px; height: 22px">
+            </ion-skeleton-text>
+            <img>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+
   </ion-content>
 </ng-template>
