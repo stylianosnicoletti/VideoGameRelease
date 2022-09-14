@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonVirtualScroll } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PlatformsMap } from '../constants/platformsMap';
@@ -14,20 +13,17 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./platforms.page.scss'],
 })
 export class PlatformsPage implements OnInit {
-
   platformDetails: PlatformDetails;
   listOfGames: ReleaseDate[] = [];
   ngUnsubscribe = new Subject<void>();
   offset: number = 0;
   take: number = 20;
 
-  @ViewChild('listedLoadedPlacesScroll') listedLoadedPlacesScroll: IonVirtualScroll;
-
   constructor(
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _apiService: ApiService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     await this.platformExistGuard();
@@ -60,20 +56,19 @@ export class PlatformsPage implements OnInit {
     this.platformDetails =
       PlatformsMap[`${this._activatedRoute.snapshot.paramMap.get('id')}`];
     if (this.platformDetails === undefined) {
-      this._router.navigate([""]);
+      this._router.navigate(['']);
     }
   }
 
   async getListData() {
-    this._apiService
-      .getReleaseDates(this.platformDetails.PlatformIds, this.take, this.offset)
+    await (await this._apiService
+      .getReleaseDates(this.platformDetails.PlatformIds, this.take, this.offset))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data) => {
+      .subscribe(async (data) => {
         //console.log(data);
-        this.listOfGames.push(...data);
+        await this.listOfGames.push(...data);
+        this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
         //console.log(this.listOfGames);
-        // Update virtual scroll when new items are pushed.
-        this.listedLoadedPlacesScroll?.checkEnd();
       });
   }
 
@@ -81,28 +76,24 @@ export class PlatformsPage implements OnInit {
     //console.log(gameId);
   }
 
-  loadMoreData(event) {
-    setTimeout(async () => {
-      // Increment offset for querying next data.
-      this.offset += this.take;
+  async loadMoreData(event) {
+    this.offset += this.take;
+    await this.ngUnsubscribe.next();
+    await this.ngUnsubscribe.complete();
+    await this.getListData();
+    await event.target.complete();
 
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
-
-      //console.log(this.offset);
-      await this.getListData();
-      event.target.complete();
-
-      // App logic to determine max data that can be loaded
-      // and disable the infinite scroll
-      if (this.listOfGames.length > 500) {
-        event.target.disabled = true;
-      }
-    }, 500);
   }
 
   async goToInstagramLink() {
-    window.location.href = 'https://www.instagram.com/video_game_release'
+    window.location.href = 'https://www.instagram.com/video_game_release';
   }
 
+  async doRefresh(){
+    await this.ngUnsubscribe.next();
+    await this.ngUnsubscribe.complete();
+    this.offset = 0
+    this.listOfGames = [];
+    await this.getListData();
+  }
 }

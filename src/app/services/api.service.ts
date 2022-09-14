@@ -18,9 +18,9 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getReleaseDates(platformIds: PlatformId[], take: Number, offset: Number): Observable<ReleaseDate[]> {
+  public async getReleaseDates(platformIds: PlatformId[], take: Number, offset: Number): Promise<Observable<ReleaseDate[]>> {
 
-    return this.httpClient.post<ReleaseDate[]>(
+    return await this.httpClient.post<ReleaseDate[]>(
       this._proxyUrl + 'v4/release_dates',
       `fields human, platform.slug, game.id, game.name, game.url, game.cover.url; where platform = (${platformIds}) & date > 1538129354 & human = *", 20"*; sort date desc; limit ${take}; offset ${offset};`,
       this._httpOptions
