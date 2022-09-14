@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -6,7 +6,6 @@ import { PlatformsMap } from '../constants/platformsMap';
 import { PlatformDetails } from '../interfaces/platformDetails';
 import { ReleaseDate } from '../interfaces/igdb/releaseDate';
 import { ApiService } from '../services/api.service';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-platforms',
@@ -19,8 +18,6 @@ export class PlatformsPage implements OnInit {
   ngUnsubscribe = new Subject<void>();
   offset: number = 0;
   take: number = 20;
-
-  @ViewChild(CdkVirtualScrollViewport) cdkVirtualScrollViewport: CdkVirtualScrollViewport;
 
   constructor(
     private _router: Router,
