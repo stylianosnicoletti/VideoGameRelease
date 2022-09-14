@@ -28,32 +28,33 @@
     <!--Ionic Framework requires that features such as collapsible large titles,
       ion-infinite-scroll, ion-refresher, and ion-reorder-group be used within an ion-content.
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
-    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="145" minBufferPx="900" maxBufferPx="1350">
+    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="155" minBufferPx="1085" maxBufferPx="1550">
+      <ion-list>
+        <ion-card *cdkVirtualFor="let x of listOfGames" (click)="gameClicked(x.game.id)">
+          <ion-item>
+            <ion-avatar slot="start">
+              <ion-img *ngIf="x.game?.cover?.url != null"
+                src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
+              </ion-img>
+              <ion-img *ngIf="x.game?.cover?.url == null" src='assets/icons/icon-192x192.png'>
+              </ion-img>
+            </ion-avatar>
+            <ion-card-header>
+              <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
+              <ion-card-title text-wrap style="font-size: 18px">{{x.game.name}}</ion-card-title>
+              <p></p>
+              <a href="{{x.game.url}}" class="underline">IGDB</a>
+              <p></p>
+              <img src='assets/platform-icons/{{ x.platform.slug }}.svg' class="platform_theme">
+            </ion-card-header>
+          </ion-item>
+        </ion-card>
 
-      <ion-card *cdkVirtualFor="let x of listOfGames" (click)="gameClicked(x.game.id)">
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-img *ngIf="x.game?.cover?.url != null" src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
-            </ion-img>
-            <ion-img *ngIf="x.game?.cover?.url == null" src='assets/icons/icon-192x192.png'>
-            </ion-img>
-          </ion-avatar>
-          <ion-card-header>
-            <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
-            <ion-card-title text-wrap style="font-size: 18px">{{x.game.name}}</ion-card-title>
-            <p></p>
-            <a href="{{x.game.url}}" class="underline">IGDB</a>
-            <p></p>
-            <img src='assets/platform-icons/{{ x.platform.slug }}.svg' class="platform_theme">
-          </ion-card-header>
-        </ion-item>
-      </ion-card>
-
-      <ion-infinite-scroll threshold="1200px" (ionInfinite)="loadMoreData($event)">
-        <ion-infinite-scroll-content>
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-
+        <ion-infinite-scroll threshold="1240px" (ionInfinite)="loadMoreData($event)">
+          <ion-infinite-scroll-content>
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-list>
     </cdk-virtual-scroll-viewport>
   </ion-content>
 
@@ -62,6 +63,7 @@
 <!-- Skeleton Loading screen -->
 <ng-template #showLoading>
   <ion-content>
+    <ion-list>
 
       <ion-card>
         <ion-item>
@@ -198,5 +200,60 @@
         </ion-item>
       </ion-card>
 
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 92px; height: 16px">
+              </ion-skeleton-text>
+            </ion-card-subtitle>
+            <ion-card-title>
+              <ion-skeleton-text animated style="width: 180px; height: 22px">
+              </ion-skeleton-text>
+            </ion-card-title>
+            <p></p>
+            <a>
+              <ion-skeleton-text animated style="width: 40px; height: 18px">
+              </ion-skeleton-text>
+            </a>
+            <p></p>
+            <ion-skeleton-text animated style="width: 22px; height: 22px">
+            </ion-skeleton-text>
+            <img>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 92px; height: 16px">
+              </ion-skeleton-text>
+            </ion-card-subtitle>
+            <ion-card-title>
+              <ion-skeleton-text animated style="width: 180px; height: 22px">
+              </ion-skeleton-text>
+            </ion-card-title>
+            <p></p>
+            <a>
+              <ion-skeleton-text animated style="width: 40px; height: 18px">
+              </ion-skeleton-text>
+            </a>
+            <p></p>
+            <ion-skeleton-text animated style="width: 22px; height: 22px">
+            </ion-skeleton-text>
+            <img>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+
+    </ion-list>
   </ion-content>
 </ng-template>
