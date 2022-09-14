@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { IonicModule } from '@ionic/angular';
 import { PlatformsPageRoutingModule } from './platforms-routing.module';
+import {ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-experimental/scrolling';
 import { PlatformsPage } from './platforms.page';
 
 @NgModule({
@@ -12,7 +13,8 @@ import { PlatformsPage } from './platforms.page';
     FormsModule,
     IonicModule,
     PlatformsPageRoutingModule,
-    ScrollingModule
+    ScrollingModule,
+    ExperimentalScrollingModule
   ],
   declarations: [PlatformsPage]
 })
