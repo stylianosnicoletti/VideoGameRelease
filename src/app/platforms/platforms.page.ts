@@ -6,7 +6,6 @@ import { PlatformsMap } from '../constants/platformsMap';
 import { PlatformDetails } from '../interfaces/platformDetails';
 import { ReleaseDate } from '../interfaces/igdb/releaseDate';
 import { ApiService } from '../services/api.service';
-import { LoadingService } from '../services/loading.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
@@ -26,8 +25,7 @@ export class PlatformsPage implements OnInit {
   constructor(
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _apiService: ApiService,
-    private _loadingService: LoadingService
+    private _apiService: ApiService
   ) {}
 
   async ngOnInit() {
@@ -73,9 +71,7 @@ export class PlatformsPage implements OnInit {
         //console.log(data);
         await this.listOfGames.push(...data);
         this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
-        console.log(this.listOfGames);
-        // Update virtual scroll when new items are pushed.
-        //this.listedLoadedPlacesScroll?.checkEnd();
+        //console.log(this.listOfGames);
       });
   }
 
@@ -83,50 +79,24 @@ export class PlatformsPage implements OnInit {
     //console.log(gameId);
   }
 
-  /*loadMoreData(event) {
-    setTimeout(async () => {
-      // Increment offset for querying next data.
-      this.offset += this.take;
+  async loadMoreData(event) {
+    this.offset += this.take;
+    await this.ngUnsubscribe.next();
+    await this.ngUnsubscribe.complete();
+    await this.getListData();
+    await event.target.complete();
 
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
-
-      console.log('xxxx' + this.offset);
-      await this.getListData();
-      event.target.complete();
-
-      // App logic to determine max data that can be loaded
-      // and disable the infinite scroll
-      if (this.listOfGames.length > 500) {
-        event.target.disabled = true;
-      }
-    }, 500);
-  }*/
+  }
 
   async goToInstagramLink() {
     window.location.href = 'https://www.instagram.com/video_game_release';
   }
 
-  async loadMoreData2(event) {
-    console.log(this.cdkVirtualScrollViewport.getDataLength());
-    let index: number = event;
-    console.log(index + "   vs   " + ((this.offset +this.take)* 1));
-    if (index >= (this.offset +this.take)* 1) {
-      console.log("YES:  " + index + "   vs   " + ((this.offset +this.take)* 1));
-      // Increment offset for querying next data.
-      //console.log('offset before:' + this.offset);
-      this.offset += this.take;
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
-      //console.log('offset after:' + this.offset);
-
-      var loadingElement = await this._loadingService.createAndPresentLoading(
-        'Loading..'
-      );
-      await this.getListData();
-      await this._loadingService.dismissLoading(loadingElement); 
-      await console.log("scrolling to:  " + index);
-      await this.cdkVirtualScrollViewport.scrollToIndex(0, "smooth");
-    }
+  async doRefresh(){
+    await this.ngUnsubscribe.next();
+    await this.ngUnsubscribe.complete();
+    this.offset = 0
+    this.listOfGames = [];
+    await this.getListData();
   }
 }
