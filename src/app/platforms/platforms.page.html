@@ -28,7 +28,7 @@
     <!--Ionic Framework requires that features such as collapsible large titles,
       ion-infinite-scroll, ion-refresher, and ion-reorder-group be used within an ion-content.
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
-    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="155" minBufferPx="1085" maxBufferPx="1550">
+    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="180" minBufferPx="1260" maxBufferPx="1800">
       <ion-list>
         <ion-card *cdkVirtualFor="let x of listOfGames" (click)="gameClicked(x.game.id)">
           <ion-item>
@@ -50,7 +50,7 @@
           </ion-item>
         </ion-card>
 
-        <ion-infinite-scroll threshold="1240px" (ionInfinite)="loadMoreData($event)">
+        <ion-infinite-scroll threshold="1440px" (ionInfinite)="loadMoreData($event)">
           <ion-infinite-scroll-content>
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
