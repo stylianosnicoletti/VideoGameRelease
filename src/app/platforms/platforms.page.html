@@ -17,14 +17,11 @@
 
 <!-- Skeleton: List filtered items -->
 <ng-template #showListOfGames>
-  <ion-content [fullscreen]="true">
-    <ion-list>
-      <ion-virtual-scroll
-        [items]="listOfGames"
-        approxItemHeight="200px"
-        #listedLoadedPlacesScroll
-      >
-        <ion-card *virtualItem="let x" (click)="gameClicked(x.game.id)">
+  <ion-content>
+
+    <cdk-virtual-scroll-viewport  itemSize="56" minBufferPx="900" maxBufferPx="1350" (scrolledIndexChange) ='loadMoreData2($event)'>
+    
+        <ion-card *cdkVirtualFor="let x of listOfGames" (click)="gameClicked(x.game.id)">
           <ion-item>
             <ion-avatar slot="start">
               <ion-img
@@ -51,14 +48,7 @@
             </ion-card-header>
           </ion-item>
         </ion-card>
-      </ion-virtual-scroll>
-    </ion-list>
-
-
-    <ion-infinite-scroll threshold="50%" (ionInfinite)="loadMoreData($event)">
-      <ion-infinite-scroll-content loadingSpinner="dots">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  </cdk-virtual-scroll-viewport>
   </ion-content>
 </ng-template>
 

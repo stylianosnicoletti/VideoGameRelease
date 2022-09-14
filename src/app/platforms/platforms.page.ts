@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonVirtualScroll } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PlatformsMap } from '../constants/platformsMap';
 import { PlatformDetails } from '../interfaces/platformDetails';
 import { ReleaseDate } from '../interfaces/igdb/releaseDate';
 import { ApiService } from '../services/api.service';
+import { LoadingService } from '../services/loading.service';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-platforms',
@@ -14,20 +15,20 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./platforms.page.scss'],
 })
 export class PlatformsPage implements OnInit {
-
   platformDetails: PlatformDetails;
   listOfGames: ReleaseDate[] = [];
   ngUnsubscribe = new Subject<void>();
   offset: number = 0;
   take: number = 20;
 
-  @ViewChild('listedLoadedPlacesScroll') listedLoadedPlacesScroll: IonVirtualScroll;
+  @ViewChild(CdkVirtualScrollViewport) cdkVirtualScrollViewport: CdkVirtualScrollViewport;
 
   constructor(
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _apiService: ApiService
-  ) { }
+    private _apiService: ApiService,
+    private _loadingService: LoadingService
+  ) {}
 
   async ngOnInit() {
     await this.platformExistGuard();
@@ -60,20 +61,21 @@ export class PlatformsPage implements OnInit {
     this.platformDetails =
       PlatformsMap[`${this._activatedRoute.snapshot.paramMap.get('id')}`];
     if (this.platformDetails === undefined) {
-      this._router.navigate([""]);
+      this._router.navigate(['']);
     }
   }
 
   async getListData() {
-    this._apiService
-      .getReleaseDates(this.platformDetails.PlatformIds, this.take, this.offset)
+    await (await this._apiService
+      .getReleaseDates(this.platformDetails.PlatformIds, this.take, this.offset))
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((data) => {
+      .subscribe(async (data) => {
         //console.log(data);
-        this.listOfGames.push(...data);
-        //console.log(this.listOfGames);
+        await this.listOfGames.push(...data);
+        this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
+        console.log(this.listOfGames);
         // Update virtual scroll when new items are pushed.
-        this.listedLoadedPlacesScroll?.checkEnd();
+        //this.listedLoadedPlacesScroll?.checkEnd();
       });
   }
 
@@ -81,7 +83,7 @@ export class PlatformsPage implements OnInit {
     //console.log(gameId);
   }
 
-  loadMoreData(event) {
+  /*loadMoreData(event) {
     setTimeout(async () => {
       // Increment offset for querying next data.
       this.offset += this.take;
@@ -89,7 +91,7 @@ export class PlatformsPage implements OnInit {
       this.ngUnsubscribe.next();
       this.ngUnsubscribe.complete();
 
-      //console.log(this.offset);
+      console.log('xxxx' + this.offset);
       await this.getListData();
       event.target.complete();
 
@@ -99,10 +101,32 @@ export class PlatformsPage implements OnInit {
         event.target.disabled = true;
       }
     }, 500);
-  }
+  }*/
 
   async goToInstagramLink() {
-    window.location.href = 'https://www.instagram.com/video_game_release'
+    window.location.href = 'https://www.instagram.com/video_game_release';
   }
 
+  async loadMoreData2(event) {
+    console.log(this.cdkVirtualScrollViewport.getDataLength());
+    let index: number = event;
+    console.log(index + "   vs   " + ((this.offset +this.take)* 1));
+    if (index >= (this.offset +this.take)* 1) {
+      console.log("YES:  " + index + "   vs   " + ((this.offset +this.take)* 1));
+      // Increment offset for querying next data.
+      //console.log('offset before:' + this.offset);
+      this.offset += this.take;
+      this.ngUnsubscribe.next();
+      this.ngUnsubscribe.complete();
+      //console.log('offset after:' + this.offset);
+
+      var loadingElement = await this._loadingService.createAndPresentLoading(
+        'Loading..'
+      );
+      await this.getListData();
+      await this._loadingService.dismissLoading(loadingElement); 
+      await console.log("scrolling to:  " + index);
+      await this.cdkVirtualScrollViewport.scrollToIndex(0, "smooth");
+    }
+  }
 }
