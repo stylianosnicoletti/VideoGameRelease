@@ -28,8 +28,8 @@ ion-menu-button {
 }
 
 ion-avatar { 
-  width: 135px;  
-  height: 135px;  
+  width: 127px;  
+  height: 180px;  
   --border-radius: 3px;
 }
 
@@ -41,6 +41,7 @@ ion-badge {
 .platform_theme {
   width: 22px;
   height: 22px;
+  margin: 0px 10px 0px 0px;
 }
 
 .instagram-img{
@@ -52,3 +53,8 @@ cdk-virtual-scroll-viewport {
   height: 100%;
   width: 100%;
 }
+
+.horizontal {
+  display: flex;
+}
+
