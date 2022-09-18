@@ -74,20 +74,23 @@ export class PlatformsPage implements OnInit {
         .getMultiPlatformUpComingReleaseDatesAscendingAsync(this.platformDetails.PlatformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(async (data) => {   
+          //console.log(data);
           const tempList: ReleaseDate[] = [];
+          // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
           const lastItem: ReleaseDate = this.listOfGames.pop();
           if (lastItem !== undefined) {
             tempList.push(lastItem);
           }
-          tempList.push(...data)
-          const distinctItemList: ReleaseDate[] = tempList.filter(
-            (item, i, arr) => arr.findIndex(t => t.game.id === item.game.id && t.date === item.date ) === i
-          );
-          //console.log(temp);
+          tempList.push(...data);
+          //console.log(tempList);
+
+          var distinctItemList = await this.prepareDistinctMultiPlatformDataAsync(tempList);       
           //console.log(distinctItemList);
+
           await this.listOfGames.push(...distinctItemList);
           this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
           //console.log(this.listOfGames);
+
           this.amLoadingFlag = false;
         })
     } else {
@@ -151,5 +154,25 @@ export class PlatformsPage implements OnInit {
 
   trackByIdx(i){
     return i;
+  }
+
+  async prepareDistinctMultiPlatformDataAsync(list: ReleaseDate[]): Promise<ReleaseDate[]>{
+    var temporaryMap = {};
+    var distinctItemList = list.reduce(function(r, o) {
+      o.customMultiPlatformFoundSlugs = new Set();
+      o.customMultiPlatformFoundSlugs.add(o.platform.slug);
+      var key = o.game.id + '-' + o.date; // with key the game id and date.
+      
+      if(!temporaryMap[key]) {
+        temporaryMap[key] = Object.assign({}, o); // create a copy of o
+        r.push(temporaryMap[key]);
+      } else {
+        temporaryMap[key].customMultiPlatformFoundSlugs.add(o.platform.slug);
+      }
+
+      return r;
+    }, []);
+    //console.log(distinctItemList);
+    return distinctItemList;
   }
 }

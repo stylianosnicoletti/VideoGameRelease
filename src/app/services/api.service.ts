@@ -48,7 +48,7 @@ export class ApiService {
   ): Promise<Observable<ReleaseDate[]>> {
     return await this.httpClient.post<ReleaseDate[]>(
       this._proxyUrl + 'v4/release_dates',
-      `fields human, platform.slug, game.platforms.slug, game.id, game.name, game.url, game.cover.url; where platform = (${platformIds}) & date >= ${fromDate} & human = *" 20"* &  game.cover.url != null; sort date asc; limit ${take}; offset ${offset};`,
+      `fields human, platform.slug, game.id, game.name, game.url, game.cover.url; where platform = (${platformIds}) & date >= ${fromDate} & human = *" 20"* &  game.cover.url != null; sort date asc; limit ${take}; offset ${offset};`,
       this._httpOptions
     );
   }
