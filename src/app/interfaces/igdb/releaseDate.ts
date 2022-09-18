@@ -15,4 +15,5 @@ export interface ReleaseDate {
     updated_at: number;
     y: number;
     checksum: string;
+    customMultiPlatformFoundSlugs: Set<string> // Custom propery for all categories that fetch same gameid and release date for multiplatforms.
 }

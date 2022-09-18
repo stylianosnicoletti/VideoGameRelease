@@ -28,7 +28,7 @@
     <!--Ionic Framework requires that features such as collapsible large titles,
       ion-infinite-scroll, ion-refresher, and ion-reorder-group be used within an ion-content.
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
-    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="196" minBufferPx="1568" maxBufferPx="2352"
+    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="196" minBufferPx="3528" maxBufferPx="4900"
       (scrolledIndexChange)="getNextBatch($event)">
       <ion-card *cdkVirtualFor="let x of listOfGames; let i = index; trackBy: trackByIdx"
         (click)="gameClicked(x.game.id)">
@@ -46,12 +46,10 @@
             <a style="font-size: 14px" href="{{x.game.url}}" class="underline">IGDB</a>
             <p></p>
             <div class="horizontal" *ngIf="platformDetails.Title == 'All'">
-                <div class="horizontal" *ngFor="let p of x.game.platforms">
-                    <img
-                    *ngIf="p.slug == 'android' || p.slug == 'ios' || p.slug == 'linux' || p.slug == 'ps5' || p.slug == 'series-x' || p.slug == 'stadia' || p.slug == 'switch' || p.slug == 'win'"
-                    src='assets/platform-icons/{{ p.slug }}.svg' class="platform_theme">
-                </div>
+              <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
+                <img src='assets/platform-icons/{{ customSlug }}.svg' class="platform_theme">
               </div>
+            </div>
             <img *ngIf="platformDetails.Title != 'All'" src='assets/platform-icons/{{ x.platform.slug }}.svg'
               class="platform_theme">
           </ion-card-header>
