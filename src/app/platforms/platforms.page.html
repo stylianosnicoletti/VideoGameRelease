@@ -28,10 +28,10 @@
     <!--Ionic Framework requires that features such as collapsible large titles,
       ion-infinite-scroll, ion-refresher, and ion-reorder-group be used within an ion-content.
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
-    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="196" minBufferPx="3528" maxBufferPx="4900"
+    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="285" minBufferPx="5130" maxBufferPx="7125"
       (scrolledIndexChange)="getNextBatch($event)">
       <ion-card *cdkVirtualFor="let x of listOfGames; let i = index; trackBy: trackByIdx"
-        (click)="gameClicked(x.game.id)">
+        (click)="gameClicked(x.game.id, x.game.url)">
         <ion-item>
           <ion-avatar slot="start">
             <ion-img *ngIf="x.game?.cover?.url != null" src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
@@ -43,7 +43,12 @@
             <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
             <ion-card-title text-wrap style="font-size: 18px">{{x.game.name}}</ion-card-title>
             <p></p>
-            <a style="font-size: 14px" href="{{x.game.url}}" class="underline">IGDB</a>
+            <div text-wrap>
+              <div text-wrap *ngFor="let genre of x.game.genres?.slice(0, 1);">
+                <ion-badge>{{ genre.name }}</ion-badge>
+                <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
+              </div>       
+            </div>
             <p></p>
             <div class="horizontal" *ngIf="platformDetails.Title == 'All'">
               <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
@@ -52,6 +57,9 @@
             </div>
             <img *ngIf="platformDetails.Title != 'All'" src='assets/platform-icons/{{ x.platform.slug }}.svg'
               class="platform_theme">
+
+              <p *ngIf="x.game.summary?.length < 100 && x.game.summary?.length > 0" text-wrap style="font-size: 14px">{{ x.game.summary?.substring(0, x.game.summary?.substring(0,100).lastIndexOf(' ')) }}...</p>
+              <p *ngIf="x.game.summary?.length >= 100 && x.game.summary?.length > 0" text-wrap style="font-size: 14px">{{ x.game.summary?.substring(0, x.game.summary?.substring(0,100).lastIndexOf(' ')) }}...</p>
           </ion-card-header>
         </ion-item>
       </ion-card>
