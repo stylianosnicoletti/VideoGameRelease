@@ -50,6 +50,20 @@ ion-badge {
   height: 28px;
 }
 
+.iIcon {
+  width: 28px;
+  height: 28px;
+
+}
+.iIcon img {
+  width: 28px;
+  height: 28px;
+
+}
+.iIcon img:active {
+  transform: scale(0.9);
+}
+
 cdk-virtual-scroll-viewport {
   height: 100%;
   width: 100%;
@@ -81,4 +95,3 @@ ion-card-title {
   -webkit-box-orient: vertical;
   font-size: 16.5px;
 }
-
