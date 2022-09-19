@@ -28,8 +28,8 @@ ion-menu-button {
 }
 
 ion-avatar { 
-  width: 127px;  
-  height: 180px;  
+  width: 113px;  
+  height: 160px;  
   --border-radius: 3px;
 }
 
@@ -57,5 +57,28 @@ cdk-virtual-scroll-viewport {
 
 .horizontal {
   display: flex;
+}
+
+.horizontalSingleLineBadge {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+ion-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 13.5px;
+}
+
+ion-card-title {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 16.5px;
 }
 
