@@ -4,7 +4,10 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{ platformDetails.Title }} Games</ion-title>
-    <img slot="end" class="instagram-img" src="assets/social-media/instagram.svg" (click)="goToInstagramLink()">
+    <div slot="end" class="iIcon" id="iIcon">
+      <img slot="end" src="assets/social-media/instagram.svg" (click)="goToInstagramLink()">
+    </div>
+
     <ion-label slot="end">&nbsp;&nbsp;&nbsp;&nbsp;</ion-label>
   </ion-toolbar>
 </ion-header>
@@ -28,11 +31,11 @@
     <!--Ionic Framework requires that features such as collapsible large titles,
       ion-infinite-scroll, ion-refresher, and ion-reorder-group be used within an ion-content.
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
-      <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="210" minBufferPx="3780" maxBufferPx="5250"
+    <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="210" minBufferPx="3780" maxBufferPx="5250"
       (scrolledIndexChange)="getNextBatch($event)">
       <ion-card *cdkVirtualFor="let x of listOfGames; let i = index; trackBy: trackByIdx"
         (click)="gameClicked(x.game.id, x.game.url)">
-        <ion-item>
+        <ion-item button>
           <ion-avatar slot="start">
             <ion-img *ngIf="x.game?.cover?.url != null" src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
             </ion-img>
@@ -43,10 +46,10 @@
             <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
             <ion-card-title>{{x.game.name}}</ion-card-title>
             <p></p>
-              <div text-wrap *ngFor="let genre of x.game.genres?.slice(0, 1);">
-                <ion-badge>{{ genre.name }}</ion-badge>
-                <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
-              </div>       
+            <div text-wrap *ngFor="let genre of x.game.genres?.slice(0, 1);">
+              <ion-badge>{{ genre.name }}</ion-badge>
+              <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
+            </div>
             <p></p>
             <div class="horizontal" *ngIf="platformDetails.Title == 'All'">
               <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
@@ -55,14 +58,14 @@
             </div>
             <img *ngIf="platformDetails.Title != 'All'" src='assets/platform-icons/{{ x.platform.slug }}.svg'
               class="platform_theme">
-              <p></p>
-              <ion-text *ngIf=" x.game.summary?.length > 0">{{ x.game.summary }}</ion-text>
+            <p></p>
+            <ion-text *ngIf=" x.game.summary?.length > 0">{{ x.game.summary }}</ion-text>
           </ion-card-header>
         </ion-item>
       </ion-card>
     </cdk-virtual-scroll-viewport>
   </ion-content>
-  </ng-template>
+</ng-template>
 
 <!-- Skeleton Loading screen -->
 <ng-template #showLoading>
@@ -83,8 +86,8 @@
             </ion-skeleton-text>
           </ion-card-title>
           <p></p>
-            <ion-skeleton-text animated style="width: 50px; height: 20px">
-            </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 50px; height: 20px">
+          </ion-skeleton-text>
           <p></p>
           <ion-skeleton-text animated style="width: 22px; height: 22px">
           </ion-skeleton-text>
