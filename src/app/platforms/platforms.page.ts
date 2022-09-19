@@ -109,8 +109,9 @@ export class PlatformsPage implements OnInit {
     ;
   }
 
-  async gameClicked(gameId) {
-    //console.log(gameId);
+  async gameClicked(gameId, gameUrl) {
+    //console.log(gameUrl);
+    window.location.href = gameUrl;
   }
 
   async getNextBatch(event){
