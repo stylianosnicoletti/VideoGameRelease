@@ -3,16 +3,16 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="game != undefined">
-      {{game.name}}
+    <ion-title *ngIf="gameDetails != undefined">
+      {{gameDetails.name}}
     </ion-title>
-    <ion-title *ngIf="game == undefined">
+    <ion-title *ngIf="gameDetails == undefined">
       <ion-skeleton-text animated style="width: 200px; height: 24px"></ion-skeleton-text>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<div *ngIf="game == undefined; then showLoading else showGame">
+<div *ngIf="gameDetails == undefined; then showLoading else showGame">
   <!-- Normal screen -->
 
   <!-- Skeleton in here-->
@@ -27,7 +27,7 @@
 
       <ion-row class="ion-justify-content-center">
         <ion-card>
-          <ion-img *ngIf="game.cover?.url != null" src='{{ game.cover.url.replace("t_thumb", "t_screenshot_big") }}'>
+          <ion-img *ngIf="gameDetails.cover?.url != null" src='{{ gameDetails.cover.url.replace("t_thumb", "t_screenshot_big") }}'>
           </ion-img>
         </ion-card>
       </ion-row>
@@ -40,7 +40,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{game.summary}}
+            {{gameDetails.summary}}
           </ion-card-content>
         </ion-card>
       </ion-row>
@@ -55,7 +55,7 @@
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <div text-wrap *ngFor="let genre of game.genres">
+              <div text-wrap *ngFor="let genre of gameDetails.genres">
                 <ion-badge>{{ genre.name }}</ion-badge>
               </div>
             </ion-card-content>
@@ -69,7 +69,7 @@
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <div text-wrap *ngFor="let platform of game.platforms">
+              <div text-wrap *ngFor="let platform of gameDetails.platforms">
                 <ion-badge>{{ platform.name }}</ion-badge>
               </div>
             </ion-card-content>
@@ -87,7 +87,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <div text-wrap *ngFor="let website of game.websites">
+            <div text-wrap *ngFor="let website of gameDetails.websites">
               <ion-button href="{{website.url}}">{{ website.url.replace('www.','').replace('http://','').replace('https://','').split('/')[0] }}</ion-button>
             </div>
           </ion-card-content>

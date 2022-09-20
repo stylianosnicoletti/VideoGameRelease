@@ -12,7 +12,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class GamePage implements OnInit {
 
-  game: Game;
+  gameDetails: Game;
   ngUnsubscribe = new Subject<void>();
 
   constructor(
@@ -58,8 +58,8 @@ export class GamePage implements OnInit {
         if (data.length == 0 || data[0]?.id?.toString() != gameId){
           this._router.navigate(['']);
         }
-        this.game = data[0];
-        console.log(this.game.name);
+        this.gameDetails = data[0];
+        console.log(this.gameDetails.name);
       })
   }
 }
