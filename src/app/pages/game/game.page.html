@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="game != undefined">
+      {{game.name}}
+    </ion-title>
+    <ion-title *ngIf="game == undefined">
+      <ion-skeleton-text animated style="width: 200px; height: 24px"></ion-skeleton-text>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div *ngIf="game == undefined; then showLoading else showGame">
+  <!-- Normal screen -->
+
+  <!-- Skeleton in here-->
+</div>
+
+<!-- Skeleton: List filtered items -->
+<ng-template #showGame>
+
+  <ion-content fullscreen>
+    <ion-grid>
+
+
+      <ion-row class="ion-justify-content-center">
+        <ion-card>
+          <ion-img *ngIf="game.cover?.url != null" src='{{ game.cover.url.replace("t_thumb", "t_screenshot_big") }}'>
+          </ion-img>
+        </ion-card>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Summary
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{game.summary}}
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+
+
+      <ion-row class="ion-justify-content-center">
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+                Genres
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div text-wrap *ngFor="let genre of game.genres">
+                <ion-badge>{{ genre.name }}</ion-badge>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+                Platforms
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div text-wrap *ngFor="let platform of game.platforms">
+                <ion-badge>{{ platform.name }}</ion-badge>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+
+
+      <ion-row class="ion-justify-content-center">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Websites
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div text-wrap *ngFor="let website of game.websites">
+              <ion-button href="{{website.url}}">{{ website.url.replace('www.','').replace('http://','').replace('https://','').split('/')[0] }}</ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+
+    </ion-grid>
+
+  </ion-content>
+
+</ng-template>
+
+<!-- Skeleton Loading screen -->
+<ng-template #showLoading>
+  <ion-content fullscreen>
+
+    <ion-card *ngFor="let number of [0,1,2,3,4,6,7]">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-card-header>
+          <ion-card-subtitle>
+            <ion-skeleton-text animated style="width: 92px; height: 16px">
+            </ion-skeleton-text>
+          </ion-card-subtitle>
+          <ion-card-title>
+            <ion-skeleton-text animated style="width: 180px; height: 20px">
+            </ion-skeleton-text>
+          </ion-card-title>
+          <p></p>
+          <ion-skeleton-text animated style="width: 50px; height: 20px">
+          </ion-skeleton-text>
+          <p></p>
+          <ion-skeleton-text animated style="width: 22px; height: 22px">
+          </ion-skeleton-text>
+        </ion-card-header>
+      </ion-item>
+    </ion-card>
+
+
+  </ion-content>
+</ng-template>

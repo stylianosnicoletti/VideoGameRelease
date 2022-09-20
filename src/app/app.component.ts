@@ -22,33 +22,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private revokeChoiceSubscription: Subscription;
   private noCookieLawSubscription: Subscription;
 
-  public appPages = [
-    { title: 'All', url: '/platforms/All', icon: 'assets/platform-icons/All.svg', theme: 'platform_theme_all' },
-
-    { title: 'Windows', url: '/platforms/Windows', icon: 'assets/platform-icons/win.svg', theme: 'platform_theme' },
-    { title: 'Linux', url: '/platforms/Linux', icon: 'assets/platform-icons/linux.svg', theme: 'platform_theme' },
-    { title: 'Stadia', url: '/platforms/Stadia', icon: 'assets/platform-icons/stadia.svg', theme: 'platform_theme' },
-
-    { title: 'PlayStation 5', url: '/platforms/PS5', icon: 'assets/platform-icons/ps5.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 4', url: '/platforms/PS4', icon: 'assets/platform-icons/PS4.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 3', url: '/platforms/PS3', icon: 'assets/platform-icons/PS3.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 2', url: '/platforms/PS2', icon: 'assets/platform-icons/PS2.svg', theme: 'platform_theme' },
-    //{ title: 'PlayStation 1', url: '/platforms/PS1', icon: 'assets/platform-icons/PS1.svg', theme: 'platform_theme' },
-
-    { title: 'Xbox Series X', url: '/platforms/XSX', icon: 'assets/platform-icons/series-x.svg', theme: 'platform_theme' },
-    //{ title: 'Xbox One', url: '/platforms/XONE', icon: 'assets/platform-icons/XONE.svg', theme: 'platform_theme' },
-    //{ title: 'Xbox 360', url: '/platforms/X360', icon: 'assets/platform-icons/X360.svg', theme: 'platform_theme' },
-    //{ title: 'Xbox', url: '/platforms/XBOX', icon: 'assets/platform-icons/XBOX.svg', theme: 'platform_theme' },
-
-    { title: 'Nintendo Switch', url: '/platforms/NX', icon: 'assets/platform-icons/switch.svg', theme: 'platform_theme' },
-    //{ title: 'Nintendo Wii U', url: '/platforms/WIIU', icon: 'assets/platform-icons/WIIU.svg', theme: 'platform_theme' },
-    //{ title: 'Nintendo Wii', url: '/platforms/WII', icon: 'assets/platform-icons/WII.svg', theme: 'platform_theme' },
-
-    { title: 'Android', url: '/platforms/Android', icon: 'assets/platform-icons/android.svg', theme: 'platform_theme' },
-    { title: 'iOS', url: '/platforms/IOS', icon: 'assets/platform-icons/ios.svg', theme: 'platform_theme' },
-
-  ];
-
   constructor(
     private readonly _swUpdate: SwUpdate,
     private _ccService: NgcCookieConsentService
