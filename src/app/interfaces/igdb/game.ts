@@ -1,4 +1,8 @@
+
 import { Cover } from "./cover";
+import { Genre } from "./genre";
+import { Platform } from "./platform";
+import { Website } from "./website";
 
 export interface Game {
   id: number;
@@ -12,11 +16,11 @@ export interface Game {
   first_release_date: number;
   follows: number;
   game_modes: number[];
-  genres: number[];
+  genres: Genre[];
   involved_companies: number[];
   keywords: number[];
   name: string;
-  platforms: number[];
+  platforms: Platform[];
   player_perspectives: number[];
   rating: number;
   rating_count: number;
@@ -31,6 +35,6 @@ export interface Game {
   total_rating_count: number;
   updated_at: number;
   url: string;
-  websites: number[];
+  websites: Website[];
   checksum: string;
 }
