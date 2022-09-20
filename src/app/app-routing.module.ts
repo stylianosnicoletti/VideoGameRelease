@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 
 const routes: Routes = [
   { 
-    path: '', // If user does not enter anything in URL reroute 'platforms/All'
-    redirectTo: 'platforms/All',
+    path: '', // If user does not enter anything in URL reroute 'menu'
+    redirectTo: 'menu',
     pathMatch: 'full'
   },
   {
-    path: 'platforms/:id',
-    loadChildren: () => import('./platforms/platforms.module').then(m => m.PlatformsPageModule)
+    path: 'menu',
+    loadChildren: () => import('./pages/split-layout/split-layout.module').then(m => m.SplitLayoutPageModule)
   },
   {
-    path: '**', //If path doesn't match anything reroute to 'platforms/All' (Leave it at the end)
-    redirectTo: 'platforms/All',
-    pathMatch: 'full'
+    path: 'game/:id',
+    loadChildren: () => import('./pages/game/game.module').then(m => m.GamePageModule)
   },
+  {
+    path: '**', //If path doesn't match anything reroute to 'menu' (Leave it at the end)
+    redirectTo: 'menu',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PlatformsMap } from '../constants/platformsMap';
-import { PlatformDetails } from '../interfaces/platformDetails';
-import { ReleaseDate } from '../interfaces/igdb/releaseDate';
-import { ApiService } from '../services/api.service';
+import { PlatformsMap } from '../../constants/platformsMap';
+import { PlatformDetails } from '../../interfaces/platformDetails';
+import { ReleaseDate } from '../../interfaces/igdb/releaseDate';
+import { ApiService } from '../../services/api.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
@@ -14,6 +14,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
   styleUrls: ['./platforms.page.scss'],
 })
 export class PlatformsPage implements OnInit {
+ 
   @ViewChild(CdkVirtualScrollViewport)
 
   viewport: CdkVirtualScrollViewport;
@@ -32,6 +33,7 @@ export class PlatformsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    console.log('ngOnInit  ' + this.platformDetails);
     await this.platformExistGuard();
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
   }
@@ -39,7 +41,7 @@ export class PlatformsPage implements OnInit {
   async ionViewWillEnter() {
     this.getListData();
     //await this.getListData();
-    //console.log('ionViewWillEnter  ' + this.platformDetails);
+    console.log('ionViewWillEnter  ' + this.platformDetails);
   }
 
   async ionViewDidEnter() {
@@ -111,7 +113,11 @@ export class PlatformsPage implements OnInit {
 
   async gameClicked(gameId, gameUrl) {
     //console.log(gameUrl);
-    window.location.href = gameUrl;
+    //window.location.href = gameUrl;
+    await this._router.navigate([
+      "/game/" + gameId,
+    ]);
+    //this._router.navigate("game",gameId);
   }
 
   async getNextBatch(event){
