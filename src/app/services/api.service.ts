@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PlatformId } from '../enums/platformId';
 import { ReleaseDate } from '../interfaces/igdb/releaseDate';
+import { Game } from '../interfaces/igdb/game';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +18,6 @@ export class ApiService {
   };
 
   constructor(private httpClient: HttpClient) { }
-
-  public async getReleaseDates(platformIds: PlatformId[], take: Number, offset: Number): Promise<Observable<ReleaseDate[]>> {
-
-    return await this.httpClient.post<ReleaseDate[]>(
-      this._proxyUrl + 'v4/release_dates',
-      `fields human, platform.slug, game.id, game.name, game.url, game.cover.url; where platform = (${platformIds}) & date > 1538129354 & human = *", 20"*; sort date desc; limit ${take}; offset ${offset};`,
-      this._httpOptions
-    );
-  }
 
   public async getSinglePlatformUpComingReleaseDatesAscendingAsync(
     platformIds: PlatformId[],
@@ -49,6 +41,16 @@ export class ApiService {
     return await this.httpClient.post<ReleaseDate[]>(
       this._proxyUrl + 'v4/release_dates',
       `fields human, platform.slug, game.id, game.name, game.url, game.summary, game.cover.url, game.genres.name; where platform = (${platformIds}) & date >= ${fromDate} & human = *" 20"* &  game.cover.url != null; sort date asc; limit ${take}; offset ${offset};`,
+      this._httpOptions
+    );
+  }
+
+  public async getGameAsync(
+    gameId: String
+  ): Promise<Observable<Game[]>>{
+    return await this.httpClient.post<Game[]>(
+      this._proxyUrl + 'v4/games',
+      `fields name, summary, cover.url, genres.name, websites.url, platforms.name; where id = (${gameId}); limit 1;`,
       this._httpOptions
     );
   }
