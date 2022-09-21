@@ -41,7 +41,7 @@ export class PlatformsPage implements OnInit {
   async ionViewWillEnter() {
     this.getListData();
     //await this.getListData();
-    console.log('ionViewWillEnter  ' + this.platformDetails);
+    //console.log('ionViewWillEnter  ' + this.platformDetails);
   }
 
   async ionViewDidEnter() {
@@ -57,6 +57,7 @@ export class PlatformsPage implements OnInit {
   }
 
   async ngOnDestroy() {
+    //console.log("Exit")
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     //console.log('ngOnDestroy  ' + this.platformDetails);
