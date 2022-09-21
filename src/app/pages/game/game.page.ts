@@ -22,30 +22,30 @@ export class GamePage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log("ngOnInit!!")
+    //console.log("ngOnInit!!")
     await this.gameExistGuard();
   }
 
   async ionViewWillEnter() {
-    console.log('ionViewWillEnter  ');
+    //console.log('ionViewWillEnter  ');
   }
 
   async ionViewDidEnter() {
-    console.log('ionViewDidEnter');
+   // console.log('ionViewDidEnter');
   }
 
   async ionViewWillLeave() {
-    console.log('ionViewWillLeave  ');
+    //console.log('ionViewWillLeave  ');
   }
 
   async ionViewDidLeave() {
-    console.log('ionViewDidLeave  ');
+    //console.log('ionViewDidLeave  ');
   }
 
   async ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    console.log('ngOnDestroy  ');
+    //console.log('ngOnDestroy  ');
   }
 
   async gameExistGuard(): Promise<void> {
@@ -54,12 +54,12 @@ export class GamePage implements OnInit {
       .getGameAsync(gameId))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(async (data) => {
-        console.log(data[0]);
+        //console.log(data[0]);
         if (data.length == 0 || data[0]?.id?.toString() != gameId){
           this._router.navigate(['']);
         }
         this.gameDetails = data[0];
-        console.log(this.gameDetails.name);
+        //console.log(this.gameDetails.name);
       })
   }
 }
