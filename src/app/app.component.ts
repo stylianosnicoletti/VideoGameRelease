@@ -6,6 +6,7 @@ import { NgcCookieConsentService, NgcNoCookieLawEvent, NgcInitializeEvent, NgcSt
 import { Subscription } from "rxjs";
 import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
 import { filter, map } from "rxjs/operators";
+import { Meta, Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -24,8 +25,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _swUpdate: SwUpdate,
-    private _ccService: NgcCookieConsentService
+    private _ccService: NgcCookieConsentService,
+    private meta: Meta,
+    private title: Title,
   ) {
+    this.addMyTags();
+    this.addMyTitle();
     this.initializeApplication();
   }
 
@@ -75,7 +80,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApplication() {
-
     this._swUpdate.versionUpdates.subscribe(evt => {
       switch (evt.type) {
         case 'VERSION_DETECTED':
@@ -129,5 +133,17 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
     }
+  }
+
+  addMyTags(){
+    this.meta.addTags([
+      {name: "description", content: 'All of the upcoming video game release dates.'},
+      {name: "author", content: 'Stelios Nicoletti'},
+      {name: "keywords", content: 'Game, Releases, Video, VideoGame, Date, PlayStation, XBOX, PC, Stadia, Switch, Ios, Android, IGDB, Steam, Epic'},
+    ])
+  }
+
+  addMyTitle(){
+    this.title.setTitle('Video Game Release')
   }
 }
