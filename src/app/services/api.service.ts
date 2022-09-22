@@ -50,7 +50,7 @@ export class ApiService {
   ): Promise<Observable<Game[]>>{
     return await this.httpClient.post<Game[]>(
       this._proxyUrl + 'v4/games',
-      `fields name, summary, cover.url, genres.name, websites.url, platforms.name; where id = (${gameId}); limit 1;`,
+      `fields name, summary, cover.url, genres.name, websites.url, websites.trusted, platforms.name; where id = (${gameId}); limit 1;`,
       this._httpOptions
     );
   }

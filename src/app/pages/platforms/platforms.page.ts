@@ -14,7 +14,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
   styleUrls: ['./platforms.page.scss'],
 })
 export class PlatformsPage implements OnInit {
- 
+
   @ViewChild(CdkVirtualScrollViewport)
 
   viewport: CdkVirtualScrollViewport;
@@ -76,7 +76,7 @@ export class PlatformsPage implements OnInit {
       await (await this._apiService
         .getMultiPlatformUpComingReleaseDatesAscendingAsync(this.platformDetails.PlatformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(async (data) => {   
+        .subscribe(async (data) => {
           //console.log(data);
           const tempList: ReleaseDate[] = [];
           // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
@@ -87,7 +87,7 @@ export class PlatformsPage implements OnInit {
           tempList.push(...data);
           //console.log(tempList);
 
-          var distinctItemList = await this.prepareDistinctMultiPlatformDataAsync(tempList);       
+          var distinctItemList = await this.prepareDistinctMultiPlatformDataAsync(tempList);
           //console.log(distinctItemList);
 
           await this.listOfGames.push(...distinctItemList);
@@ -121,16 +121,16 @@ export class PlatformsPage implements OnInit {
     //this._router.navigate("game",gameId);
   }
 
-  async getNextBatch(event){
+  async getNextBatch(event) {
     //console.log(event);
     const end = this.viewport.getRenderedRange().end;
     const total = this.viewport.getDataLength();
 
-    if (end === total && !this.amLoadingFlag){
+    if (end === total && !this.amLoadingFlag) {
       this.amLoadingFlag = true;
       this.offset += this.take;
       //this.loadMoreBehaviour.next(event);
-      
+
       await this.ngUnsubscribe.next();
       await this.ngUnsubscribe.complete();
       await this.getListData();
@@ -138,9 +138,12 @@ export class PlatformsPage implements OnInit {
     //console.log(this.viewport.getDataLength());
   }
 
-
-  async goToInstagramLink() {
-    window.location.href = 'https://www.instagram.com/video_game_release';
+  /**
+   * Opens link in new tab.
+   * @param url 
+   */
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
 
   async doRefresh() {
@@ -160,18 +163,18 @@ export class PlatformsPage implements OnInit {
     return secondsSinceEpoch;
   }
 
-  trackByIdx(i){
+  trackByIdx(i) {
     return i;
   }
 
-  async prepareDistinctMultiPlatformDataAsync(list: ReleaseDate[]): Promise<ReleaseDate[]>{
+  async prepareDistinctMultiPlatformDataAsync(list: ReleaseDate[]): Promise<ReleaseDate[]> {
     var temporaryMap = {};
-    var distinctItemList = list.reduce(function(r, o) {
+    var distinctItemList = list.reduce(function (r, o) {
       o.customMultiPlatformFoundSlugs = new Set();
       o.customMultiPlatformFoundSlugs.add(o.platform.slug);
       var key = o.game.id + '-' + o.date; // with key the game id and date.
-      
-      if(!temporaryMap[key]) {
+
+      if (!temporaryMap[key]) {
         temporaryMap[key] = Object.assign({}, o); // create a copy of o
         r.push(temporaryMap[key]);
       } else {

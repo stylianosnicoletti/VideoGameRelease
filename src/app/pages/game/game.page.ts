@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Website } from 'src/app/interfaces/igdb/website';
 import { Game } from '../../interfaces/igdb/game';
 import { ApiService } from '../../services/api.service';
 
@@ -31,7 +32,7 @@ export class GamePage implements OnInit {
   }
 
   async ionViewDidEnter() {
-   // console.log('ionViewDidEnter');
+    // console.log('ionViewDidEnter');
   }
 
   async ionViewWillLeave() {
@@ -54,12 +55,32 @@ export class GamePage implements OnInit {
       .getGameAsync(gameId))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(async (data) => {
-        //console.log(data[0]);
-        if (data.length == 0 || data[0]?.id?.toString() != gameId){
+        console.log(data[0]);
+        if (data.length == 0 || data[0]?.id?.toString() != gameId) {
           this._router.navigate(['']);
         }
         this.gameDetails = data[0];
+        this.gameDetails.websites = this.gameDetails?.websites?.filter(this.getOnlyTrustedWebSites);
         //console.log(this.gameDetails.name);
       })
+  }
+
+  /**
+   * Opens link in new tab.
+   * @param url 
+   */
+  goToLink(url: string) {
+    window.open(url, "_blank");
+  }
+
+  /**
+   * Returns website if it is trusted.
+   * @param website 
+   * @returns 
+   */
+  getOnlyTrustedWebSites(website: Website){
+    if(website.trusted){
+      return website;
+    }
   }
 }
