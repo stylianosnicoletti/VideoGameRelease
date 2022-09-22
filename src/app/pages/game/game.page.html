@@ -93,7 +93,7 @@
           <ion-grid>
             <ion-row *ngFor="let website of gameDetails.websites">
               <ion-col size="12" size-sm="3">
-                <ion-button fill="outline" href="{{website.url}}">{{
+                <ion-button fill="outline" (click)="goToLink(website.url)">{{
                   website.url.replace('http://','').replace('https://','').replace('www.','').replace('.com','').split('/')[0]
                   }}
                 </ion-button>
