@@ -45,7 +45,7 @@
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-item-group *ngIf="gameDetails.genres != null">
+            <ion-item-group *ngIf="gameDetails.genres != null && gameDetails.genres?.length > 0">
               <ion-item-divider>
                 <ion-label>
                   &nbsp;&nbsp;&nbsp;Genres
@@ -63,7 +63,7 @@
             </ion-item-group>
           </ion-col>
           <ion-col>
-            <ion-item-group *ngIf="gameDetails.platforms != null">
+            <ion-item-group *ngIf="gameDetails.platforms != null && gameDetails.platforms?.length > 0">
               <ion-item-divider>
                 <ion-label>
                   &nbsp;&nbsp;&nbsp;Platforms
@@ -83,7 +83,7 @@
         </ion-row>
       </ion-grid>
 
-      <ion-item-group *ngIf="gameDetails.websites != null">
+      <ion-item-group *ngIf="gameDetails.websites != null && gameDetails.websites?.length > 0">
         <ion-item-divider>
           <ion-label>
             &nbsp;&nbsp;&nbsp;Websites
