@@ -6,7 +6,6 @@ import { PlatformsMap } from '../../constants/platformsMap';
 import { PlatformDetails } from '../../interfaces/platformDetails';
 import { ReleaseDate } from '../../interfaces/igdb/releaseDate';
 import { ApiService } from '../../services/api.service';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-platforms',
@@ -15,9 +14,6 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 })
 export class PlatformsPage implements OnInit {
 
-  @ViewChild(CdkVirtualScrollViewport)
-
-  viewport: CdkVirtualScrollViewport;
   platformDetails: PlatformDetails;
   listOfGames: ReleaseDate[] = [];
   ngUnsubscribe = new Subject<void>();
@@ -25,6 +21,7 @@ export class PlatformsPage implements OnInit {
   take: number = 25;
   dateSecondsSinceEpoch: number = 0;
   amLoadingFlag: boolean = false;
+  loadingElement;
 
   constructor(
     private _router: Router,
@@ -33,7 +30,7 @@ export class PlatformsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log('ngOnInit  ' + this.platformDetails);
+    //console.log('ngOnInit  ' + this.platformDetails);
     await this.platformExistGuard();
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
   }
@@ -71,7 +68,7 @@ export class PlatformsPage implements OnInit {
     }
   }
 
-  async getListData() {
+  async getListData(event?) {
     if (this.platformDetails.Title == 'All') {
       await (await this._apiService
         .getMultiPlatformUpComingReleaseDatesAscendingAsync(this.platformDetails.PlatformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
@@ -81,6 +78,7 @@ export class PlatformsPage implements OnInit {
           const tempList: ReleaseDate[] = [];
           // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
           const lastItem: ReleaseDate = this.listOfGames.pop();
+          //console.log(lastIndex);
           if (lastItem !== undefined) {
             tempList.push(lastItem);
           }
@@ -93,8 +91,7 @@ export class PlatformsPage implements OnInit {
           await this.listOfGames.push(...distinctItemList);
           this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
           //console.log(this.listOfGames);
-
-          this.amLoadingFlag = false;
+          event?.target.complete();
         })
     } else {
       await (await this._apiService
@@ -105,37 +102,24 @@ export class PlatformsPage implements OnInit {
           await this.listOfGames.push(...data);
           this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
           //console.log(this.listOfGames);
-          this.amLoadingFlag = false;
-
+          event?.target.complete();
         })
     }
     ;
   }
 
-  async gameClicked(gameId, gameUrl) {
-    //console.log(gameUrl);
-    //window.location.href = gameUrl;
+  async gameClicked(gameId) {
     await this._router.navigate([
       "/game/" + gameId,
     ]);
-    //this._router.navigate("game",gameId);
   }
 
   async getNextBatch(event) {
-    //console.log(event);
-    const end = this.viewport.getRenderedRange().end;
-    const total = this.viewport.getDataLength();
-
-    if (end === total && !this.amLoadingFlag) {
-      this.amLoadingFlag = true;
+      //console.log("Get moreee")
       this.offset += this.take;
-      //this.loadMoreBehaviour.next(event);
-
       await this.ngUnsubscribe.next();
       await this.ngUnsubscribe.complete();
-      await this.getListData();
-    }
-    //console.log(this.viewport.getDataLength());
+      await this.getListData(event);
   }
 
   /**
@@ -186,4 +170,6 @@ export class PlatformsPage implements OnInit {
     //console.log(distinctItemList);
     return distinctItemList;
   }
+
+  
 }
