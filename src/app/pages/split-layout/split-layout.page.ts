@@ -24,7 +24,7 @@ export class SplitLayoutPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log("here i am")
+    //console.log("here i am")
   }
 
   async ionViewWillEnter() {
