@@ -10,7 +10,6 @@ export const PlatformsMap = {
         PlatformIds: [
             PlatformId.PC,
             PlatformId.Linux,
-            PlatformId.Stadia,
             PlatformId.PS5,
             PlatformId.XSX,
             PlatformId.NX,
@@ -24,10 +23,6 @@ export const PlatformsMap = {
     Linux: {
         Title: "Linux",
         PlatformIds: [PlatformId.Linux]
-    },
-    Stadia: {
-        Title: "Stadia",
-        PlatformIds: [PlatformId.Stadia]
     },
     PS5: {
         Title: "PlayStation 5",

@@ -11,7 +11,6 @@ export class SplitLayoutPage implements OnInit {
     { title: 'All', url: '/menu/platforms/All', icon: 'assets/platform-icons/All.svg', theme: 'platform_theme_all' },
     { title: 'Windows', url: '/menu/platforms/Windows', icon: 'assets/platform-icons/win.svg', theme: 'platform_theme' },
     { title: 'Linux', url: '/menu/platforms/Linux', icon: 'assets/platform-icons/linux.svg', theme: 'platform_theme' },
-    { title: 'Stadia', url: '/menu/platforms/Stadia', icon: 'assets/platform-icons/stadia.svg', theme: 'platform_theme' },
     { title: 'PlayStation 5', url: '/menu/platforms/PS5', icon: 'assets/platform-icons/ps5.svg', theme: 'platform_theme' },
     { title: 'Xbox Series X', url: '/menu/platforms/XSX', icon: 'assets/platform-icons/series-x.svg', theme: 'platform_theme' },
     { title: 'Nintendo Switch', url: '/menu/platforms/NX', icon: 'assets/platform-icons/switch.svg', theme: 'platform_theme' },
