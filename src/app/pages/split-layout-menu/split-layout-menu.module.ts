@@ -2,20 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { PlatformsPage } from './platforms.page';
-import { RouterModule } from '@angular/router';
+import { SplitLayoutMenuPageRoutingModule } from './split-layout-menu-routing.module';
+import { SplitLayoutMenuPage } from './split-layout-menu.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild([{ 
-      path: '',
-       component: PlatformsPage
-       }
-      ])
+    SplitLayoutMenuPageRoutingModule
   ],
-  declarations: [PlatformsPage]
+  declarations: [SplitLayoutMenuPage]
 })
-export class PlatformsPageModule {}
+export class SplitLayoutMenuPageModule {}

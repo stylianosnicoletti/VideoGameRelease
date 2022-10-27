@@ -8,11 +8,11 @@ import { ReleaseDate } from '../../interfaces/igdb/releaseDate';
 import { ApiService } from '../../services/api.service';
 
 @Component({
-  selector: 'app-platforms',
-  templateUrl: './platforms.page.html',
-  styleUrls: ['./platforms.page.scss'],
+  selector: 'app-games-list',
+  templateUrl: './games-list.page.html',
+  styleUrls: ['./games-list.page.scss'],
 })
-export class PlatformsPage implements OnInit {
+export class GamesListPage implements OnInit {
 
   platformDetails: PlatformDetails;
   listOfGames: ReleaseDate[] = [];

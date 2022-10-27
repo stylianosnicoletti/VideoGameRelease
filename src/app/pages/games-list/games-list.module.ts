@@ -2,16 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { SplitLayoutPageRoutingModule } from './split-layout-routing.module';
-import { SplitLayoutPage } from './split-layout.page';
+import { GamesListPage } from './games-list.page';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SplitLayoutPageRoutingModule
+    RouterModule.forChild([{ 
+      path: '',
+       component: GamesListPage
+       }
+      ])
   ],
-  declarations: [SplitLayoutPage]
+  declarations: [GamesListPage]
 })
-export class SplitLayoutPageModule {}
+export class GamesListPageModule {}
