@@ -48,5 +48,13 @@ export class SplitLayoutMenuPage implements OnInit {
     //console.log('ngOnDestroy  ' + this.platformDetails);
   }
 
+    /**
+   * Opens link in new tab.
+   * @param url 
+   */
+     goToLink(url: string) {
+      window.open(url, "_blank");
+    }
+
  
 }
