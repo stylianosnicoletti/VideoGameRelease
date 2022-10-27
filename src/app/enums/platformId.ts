@@ -1,6 +1,6 @@
 export enum PlatformId {
     Linux = 3,
-    PC = 6,
+    Windows = 6, // PC
 
     //PS1 = 7,
     //PS2 = 8,

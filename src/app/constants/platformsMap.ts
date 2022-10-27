@@ -7,18 +7,11 @@ export const PlatformsMap = {
 
     All: {
         Title: "All",
-        PlatformIds: [
-            PlatformId.PC,
-            PlatformId.Linux,
-            PlatformId.PS5,
-            PlatformId.XSX,
-            PlatformId.NX,
-            PlatformId.Android,
-            PlatformId.IOS]
+
     },
     Windows: {
         Title: "Windows",
-        PlatformIds: [PlatformId.PC]
+        PlatformIds: [PlatformId.Windows]
     },
     Linux: {
         Title: "Linux",

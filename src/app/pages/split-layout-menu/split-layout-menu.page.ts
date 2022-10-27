@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-split-layout-menu',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./split-layout-menu.page.scss'],
 })
 export class SplitLayoutMenuPage implements OnInit {
- 
+
   public appPages = [
     { title: 'All', url: '/menu/games-list/All', icon: 'assets/platform-icons/All.svg', theme: 'platform_theme_all' },
     { title: 'Windows', url: '/menu/games-list/Windows', icon: 'assets/platform-icons/win.svg', theme: 'platform_theme' },
@@ -17,9 +18,10 @@ export class SplitLayoutMenuPage implements OnInit {
     { title: 'Android', url: '/menu/games-list/Android', icon: 'assets/platform-icons/android.svg', theme: 'platform_theme' },
     { title: 'iOS', url: '/menu/games-list/IOS', icon: 'assets/platform-icons/ios.svg', theme: 'platform_theme' },
   ];
- 
+
 
   constructor(
+    private _router: Router
   ) { }
 
   async ngOnInit() {
@@ -48,13 +50,22 @@ export class SplitLayoutMenuPage implements OnInit {
     //console.log('ngOnDestroy  ' + this.platformDetails);
   }
 
-    /**
-   * Opens link in new tab.
-   * @param url 
-   */
-     goToLink(url: string) {
-      window.open(url, "_blank");
-    }
+  /**
+ * Opens link in new tab.
+ * @param url 
+ */
+  goToLink(url: string) {
+    window.open(url, "_blank");
+  }
 
- 
+  onFilterChange() {
+    this._router.navigate(['/menu/games-list/Windows'], {
+      queryParams: {
+        platform: ["PS5","Windows"],
+        genre: ["aa"]//Math.floor(Math.random() *50000),
+      } //to override previous params
+    });
+
+
+  }
 }
