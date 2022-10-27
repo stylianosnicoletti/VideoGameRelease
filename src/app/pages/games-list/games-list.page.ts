@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PlatformsMap } from '../../constants/platformsMap';
-import { PlatformDetails } from '../../interfaces/platformDetails';
 import { ReleaseDate } from '../../interfaces/igdb/releaseDate';
 import { ApiService } from '../../services/api.service';
+import { PlatformId } from 'src/app/enums/platformId';
 
 @Component({
   selector: 'app-games-list',
@@ -14,7 +13,9 @@ import { ApiService } from '../../services/api.service';
 })
 export class GamesListPage implements OnInit {
 
-  platformDetails: PlatformDetails;
+  currentPlatformQueryParam: string[] = [];
+  currentGenreQueryParam: string[] = [];
+  platformIds: PlatformId[] = [];
   listOfGames: ReleaseDate[] = [];
   ngUnsubscribe = new Subject<void>();
   offset: number = 0;
@@ -30,82 +31,92 @@ export class GamesListPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    //console.log('ngOnInit  ' + this.platformDetails);
-    await this.platformExistGuard();
-    this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
+    //console.log('ngOnInit  ');
+    this._activatedRoute.queryParamMap
+      .subscribe(async q => {
+        if (this.currentPlatformQueryParam != q.getAll('platform') ||
+          this.currentGenreQueryParam != q.getAll('genre')) {
+          this.currentPlatformQueryParam = q.getAll('platform');
+          this.currentGenreQueryParam = q.getAll('genre');
+          await this.queriesParamsExistGuard(q.keys, this.currentPlatformQueryParam, this.currentGenreQueryParam);
+        }
+      });
   }
 
   async ionViewWillEnter() {
-    this.getListData();
-    //await this.getListData();
-    //console.log('ionViewWillEnter  ' + this.platformDetails);
+    //console.log('ionViewWillEnter  ');
   }
 
   async ionViewDidEnter() {
-    //console.log('ionViewDidEnter  ' + this.platformDetails);
+    //console.log('ionViewDidEnter  ');
   }
 
   async ionViewWillLeave() {
-    //console.log('ionViewWillLeave  ' + this.platformDetails);
+    //console.log('ionViewWillLeave  ');
   }
 
   async ionViewDidLeave() {
-    //console.log('ionViewDidLeave  ' + this.platformDetails);
+    //console.log('ionViewDidLeave  ');
   }
 
   async ngOnDestroy() {
-    //console.log("Exit")
+    //console.log('ngOnDestroy    ')
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     //console.log('ngOnDestroy  ' + this.platformDetails);
   }
 
-  async platformExistGuard(): Promise<void> {
-    this.platformDetails =
-      PlatformsMap[`${this._activatedRoute.snapshot.paramMap.get('id')}`];
-    if (this.platformDetails === undefined) {
-      this._router.navigate(['']);
+  async queriesParamsExistGuard(keys: string[], platformQP: string[], genreQP: string[]): Promise<void> {
+    this.offset = 0
+    this.listOfGames = [];
+    this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
+    this.platformIds = [];
+
+    platformQP.forEach(platform => {
+      //console.log(PlatformId[platform])
+      this.platformIds.push(PlatformId[platform]);
+    });
+
+    //do same for genre
+
+    if (keys.length != 2 ||
+        !keys.includes("platform") ||
+        !keys.includes("genre") ||
+        this.platformIds.length == 0 || this.platformIds.includes(undefined)) {
+      await this.reNavigateWithDefaultQueryParams();
+
+      //do same for genre
+
+    } else {
+      await this.getListData();
     }
   }
 
   async getListData(event?) {
-    if (this.platformDetails.Title == 'All') {
-      await (await this._apiService
-        .getMultiPlatformUpComingReleaseDatesAscendingAsync(this.platformDetails.PlatformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(async (data) => {
-          //console.log(data);
-          const tempList: ReleaseDate[] = [];
-          // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
-          const lastItem: ReleaseDate = this.listOfGames.pop();
-          //console.log(lastIndex);
-          if (lastItem !== undefined) {
-            tempList.push(lastItem);
-          }
-          tempList.push(...data);
-          //console.log(tempList);
+    //console.log(this.platformIds);
+    await (await this._apiService
+      .getReleaseDatesAscendingAsync(this.platformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(async (data) => {
+        //console.log(data);
+        const tempList: ReleaseDate[] = [];
+        // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
+        const lastItem: ReleaseDate = this.listOfGames.pop();
+        //console.log(lastIndex);
+        if (lastItem !== undefined) {
+          tempList.push(lastItem);
+        }
+        tempList.push(...data);
+        //console.log(tempList);
 
-          var distinctItemList = await this.prepareDistinctMultiPlatformDataAsync(tempList);
-          //console.log(distinctItemList);
+        var distinctItemList = await this.prepareDistinctMultiPlatformDataAsync(tempList);
+        //console.log(distinctItemList);
 
-          await this.listOfGames.push(...distinctItemList);
-          this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
-          //console.log(this.listOfGames);
-          event?.target.complete();
-        })
-    } else {
-      await (await this._apiService
-        .getSinglePlatformUpComingReleaseDatesAscendingAsync(this.platformDetails.PlatformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(async (data) => {
-          //console.log(data);
-          await this.listOfGames.push(...data);
-          this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
-          //console.log(this.listOfGames);
-          event?.target.complete();
-        })
-    }
-    ;
+        await this.listOfGames.push(...distinctItemList);
+        this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
+        //console.log(this.listOfGames);
+        event?.target.complete();
+      });
   }
 
   async gameClicked(gameId) {
@@ -115,11 +126,11 @@ export class GamesListPage implements OnInit {
   }
 
   async getNextBatch(event) {
-      //console.log("Get moreee")
-      this.offset += this.take;
-      await this.ngUnsubscribe.next();
-      await this.ngUnsubscribe.complete();
-      await this.getListData(event);
+    //console.log("Get moreee")
+    this.offset += this.take;
+    await this.ngUnsubscribe.next();
+    await this.ngUnsubscribe.complete();
+    await this.getListData(event);
   }
 
   async doRefresh() {
@@ -163,5 +174,14 @@ export class GamesListPage implements OnInit {
     return distinctItemList;
   }
 
-  
+  async reNavigateWithDefaultQueryParams() {
+    this._router.navigate(['/menu/games-list'], {
+      queryParams: {
+        platform: ["Windows", "Linux", "PS5", "XSX", "NX", "Android", "IOS"],
+        genre: ["aa"],
+      }
+    });
+  }
+
+
 }

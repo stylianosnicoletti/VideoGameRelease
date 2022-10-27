@@ -54,7 +54,7 @@
               <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
             </div>
             <p></p>
-            <div class="horizontal" *ngIf="platformDetails.Title == 'All'">
+            <div class="horizontal">
               <div
                 class="horizontal"
                 *ngFor="let customSlug of x.customMultiPlatformFoundSlugs"
@@ -65,11 +65,6 @@
                 />
               </div>
             </div>
-            <img
-              *ngIf="platformDetails.Title != 'All'"
-              src="assets/platform-icons/{{ x.platform.slug }}.svg"
-              class="platform_theme"
-            />
             <p></p>
             <ion-text *ngIf=" x.game.summary?.length > 0"
               >{{ x.game.summary }}</ion-text

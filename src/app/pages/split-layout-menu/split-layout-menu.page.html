@@ -7,6 +7,7 @@
         <ion-note></ion-note>
 
         <ion-accordion-group>
+          <ion-button (click) = "onFilterChange()">KJss</ion-button>
           <ion-accordion value="first">
             <ion-item slot="header">
               <ion-label><b>Platforms</b></ion-label>
@@ -51,7 +52,7 @@
             </ion-item>
             <ion-item slot="content">
               <ion-label>All</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
+              <ion-checkbox disabled checked="true" slot="end"></ion-checkbox>
             </ion-item>
           </ion-accordion>
 
