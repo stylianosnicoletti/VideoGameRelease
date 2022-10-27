@@ -28,7 +28,7 @@ npm-debug.log*
 /coverage
 /dist
 /node_modules
-/games-list
+/platforms
 /plugins
 /public
 /www
