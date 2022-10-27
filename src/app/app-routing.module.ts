@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'menu',
-    loadChildren: () => import('./pages/split-layout/split-layout.module').then(m => m.SplitLayoutPageModule)
+    loadChildren: () => import('./pages/split-layout-menu/split-layout-menu.module').then(m => m.SplitLayoutMenuPageModule)
   },
   {
     path: 'game/:id',
