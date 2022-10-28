@@ -95,7 +95,7 @@ export class SplitLayoutMenuPage implements OnInit {
    */
   checkEvent() {
     //console.log("checkevent")
-    const totalItems = 7; // 7
+    const totalItems = this.filterPlatforms.length;
     let checked = 0;
     this.filterPlatforms.map(entry => {
       if (entry.IsChecked) checked++;
