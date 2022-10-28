@@ -7,4 +7,6 @@ export interface FilterPlatform {
     PlatformId: PlatformId;
 
     IsChecked?: boolean;
+
+    CustomSlug: string;
 }

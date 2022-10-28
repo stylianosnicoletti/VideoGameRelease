@@ -22,13 +22,13 @@ export class SplitLayoutMenuPage implements OnInit {
   async ngOnInit() {
     //console.log("ngOnInit")
     this.filterPlatforms = [
-      { Name: 'Windows', PlatformId: PlatformId.Windows, IsChecked: true },
-      { Name: 'Linux', PlatformId: PlatformId.Linux, IsChecked: true },
-      { Name: 'PlayStation 5', PlatformId: PlatformId.PS5, IsChecked: true },
-      { Name: 'Xbox Series X', PlatformId: PlatformId.XSX, IsChecked: true },
-      { Name: 'Nintendo Switch', PlatformId: PlatformId.NX, IsChecked: true },
-      { Name: 'Android', PlatformId: PlatformId.Android, IsChecked: true },
-      { Name: 'iOS', PlatformId: PlatformId.IOS, IsChecked: true },
+      { Name: 'Windows', PlatformId: PlatformId.Windows, IsChecked: true, CustomSlug: 'win' },
+      { Name: 'Linux', PlatformId: PlatformId.Linux, IsChecked: true , CustomSlug: 'linux' },
+      { Name: 'PlayStation 5', PlatformId: PlatformId.PS5, IsChecked: true , CustomSlug: 'ps5' },
+      { Name: 'Xbox Series X', PlatformId: PlatformId.XSX, IsChecked: true , CustomSlug: 'series-x' },
+      { Name: 'Nintendo Switch', PlatformId: PlatformId.NX, IsChecked: true , CustomSlug: 'switch' },
+      { Name: 'Android', PlatformId: PlatformId.Android, IsChecked: true , CustomSlug: 'android' },
+      { Name: 'iOS', PlatformId: PlatformId.IOS, IsChecked: true , CustomSlug: 'ios' },
     ];
     this.filterChangeEvent();
   }

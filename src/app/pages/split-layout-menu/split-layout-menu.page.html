@@ -23,6 +23,7 @@
             </ion-item>
 
             <ion-item *ngFor="let filterPlatform of filterPlatforms" slot="content">
+              <img src="assets/platform-icons/{{ filterPlatform.CustomSlug }}.svg" class="platform_theme" />
               <ion-label>&nbsp; {{filterPlatform.Name}}</ion-label>
               <ion-checkbox
               slot="end"
