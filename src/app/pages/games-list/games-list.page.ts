@@ -188,5 +188,4 @@ export class GamesListPage implements OnInit {
     }
     return false;
   }
-
 }
