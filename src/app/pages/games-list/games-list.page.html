@@ -11,11 +11,19 @@
   </ion-toolbar>
 </ion-header>
 
-<div *ngIf="listOfGames.length == 0; then showLoading else showListOfGames">
+<div *ngIf="listOfGames.length == 0 && noPlatformFilterSelected == false; then showLoading else continue">
   <!-- Normal screen -->
 
   <!-- Skeleton in here-->
 </div>
+
+
+<ng-template #continue>
+  <div *ngIf="noPlatformFilterSelected; then showFilterWarning else showListOfGames">
+    <!-- Normal screen -->
+    <!-- Skeleton in here-->
+  </div>
+</ng-template>
 
 <!-- Skeleton: List filtered items -->
 <ng-template #showListOfGames>
@@ -28,21 +36,12 @@
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
 
     <ion-list>
-      <ion-card
-        *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;"
-        (click)="gameClicked(x.game.id)"
-      >
+      <ion-card *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;" (click)="gameClicked(x.game.id)">
         <ion-item button>
           <ion-avatar slot="start">
-            <ion-img
-              *ngIf="x.game?.cover?.url != null"
-              src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'
-            >
+            <ion-img *ngIf="x.game?.cover?.url != null" src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
             </ion-img>
-            <ion-img
-              *ngIf="x.game?.cover?.url == null"
-              src="assets/icons/icon-192x192.png"
-            >
+            <ion-img *ngIf="x.game?.cover?.url == null" src="assets/icons/icon-192x192.png">
             </ion-img>
           </ion-avatar>
           <ion-card-header>
@@ -55,29 +54,18 @@
             </div>
             <p></p>
             <div class="horizontal">
-              <div
-                class="horizontal"
-                *ngFor="let customSlug of x.customMultiPlatformFoundSlugs"
-              >
-                <img
-                  src="assets/platform-icons/{{ customSlug }}.svg"
-                  class="platform_theme"
-                />
+              <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
+                <img src="assets/platform-icons/{{ customSlug }}.svg" class="platform_theme" />
               </div>
             </div>
             <p></p>
-            <ion-text *ngIf=" x.game.summary?.length > 0"
-              >{{ x.game.summary }}</ion-text
-            >
+            <ion-text *ngIf=" x.game.summary?.length > 0">{{ x.game.summary }}</ion-text>
           </ion-card-header>
         </ion-item>
       </ion-card>
     </ion-list>
     <ion-infinite-scroll threshold="500px" (ionInfinite)="getNextBatch($event)">
-      <ion-infinite-scroll-content
-        loadingSpinner="bubbles"
-        loadingText="Loading more data..."
-      >
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
       </ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </ion-content>
@@ -89,10 +77,7 @@
     <ion-card *ngFor="let number of [0,1,2,3,4,6,7]">
       <ion-item>
         <ion-avatar slot="start">
-          <ion-skeleton-text
-            animated
-            style="width: 100%; height: 100%"
-          ></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
         </ion-avatar>
         <ion-card-header>
           <ion-card-subtitle>
@@ -109,6 +94,28 @@
           <p></p>
           <ion-skeleton-text animated style="width: 22px; height: 22px">
           </ion-skeleton-text>
+        </ion-card-header>
+      </ion-item>
+    </ion-card>
+  </ion-content>
+</ng-template>
+
+<!-- Skeleton Filter warning -->
+<ng-template #showFilterWarning>
+  <ion-content>
+    <ion-card>
+      <ion-item>
+        <ion-avatar class='warning-sign' slot="start">
+          <ion-img src="assets/other/warning-sign.svg">
+          </ion-img>
+        </ion-avatar>
+        <ion-card-header>
+          <ion-card-title>
+            No choices selected in Filter 😔
+          </ion-card-title>
+          <ion-card-subtitle>
+            Please select at least one 'Platform' from the Filter.
+          </ion-card-subtitle>
         </ion-card-header>
       </ion-item>
     </ion-card>

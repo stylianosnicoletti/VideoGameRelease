@@ -83,14 +83,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this._swUpdate.versionUpdates.subscribe(evt => {
       switch (evt.type) {
         case 'VERSION_DETECTED':
-          console.log(`Downloading new app version: ${evt.version.hash}`);
+          //console.log(`Downloading new app version: ${evt.version.hash}`);
           break;
         case 'VERSION_READY':
-          console.log(`Current app version: ${evt.currentVersion.hash}`);
-          console.log(`New app version ready for use: ${evt.latestVersion.hash}`);
+          //console.log(`Current app version: ${evt.currentVersion.hash}`);
+          //console.log(`New app version ready for use: ${evt.latestVersion.hash}`);
           break;
         case 'VERSION_INSTALLATION_FAILED':
-          console.log(`Failed to install app version '${evt.version.hash}': ${evt.error}`);
+          //console.log(`Failed to install app version '${evt.version.hash}': ${evt.error}`);
           break;
       }
     });
@@ -119,15 +119,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async forceSwUnregisterAndUpdate() {
     if ("serviceWorker" in navigator) {
-      console.log("serviceWorker in navigator");
+      //console.log("serviceWorker in navigator");
       await navigator.serviceWorker
         .getRegistrations()
         .then(async (registrations) => {
-          console.log(registrations.length);
+          //console.log(registrations.length);
           for (let registration of registrations) {
-            console.log(registration);
+            //console.log(registration);
             registration.unregister().then((unregResult) => {
-              console.log(unregResult);
+              //console.log(unregResult);
               window.location.reload();
             });
           }
