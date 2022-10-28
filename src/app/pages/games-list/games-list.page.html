@@ -1,0 +1,123 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>VideoGameRelease.com</ion-title>
+    <div slot="end" class="logoIcon" id="logoIcon">
+      <img slot="end" src="assets/icons/icon-96x96.png" />
+    </div>
+    <ion-label slot="end">&nbsp;&nbsp;&nbsp;</ion-label>
+  </ion-toolbar>
+</ion-header>
+
+<div *ngIf="listOfGames.length == 0 && noPlatformFilterSelected == false; then showLoading else continue">
+  <!-- Normal screen -->
+
+  <!-- Skeleton in here-->
+</div>
+
+
+<ng-template #continue>
+  <div *ngIf="noPlatformFilterSelected; then showFilterWarning else showListOfGames">
+    <!-- Normal screen -->
+    <!-- Skeleton in here-->
+  </div>
+</ng-template>
+
+<!-- Skeleton: List filtered items -->
+<ng-template #showListOfGames>
+  <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh()">
+      <ion-refresher-content> </ion-refresher-content>
+    </ion-refresher>
+    <!--Ionic Framework requires that features such as collapsible large titles,
+      ion-infinite-scroll, ion-refresher, and ion-reorder-group be used within an ion-content.
+      To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
+
+    <ion-list>
+      <ion-card *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;" (click)="gameClicked(x.game.id)">
+        <ion-item button>
+          <ion-avatar slot="start">
+            <ion-img *ngIf="x.game?.cover?.url != null" src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
+            </ion-img>
+            <ion-img *ngIf="x.game?.cover?.url == null" src="assets/icons/icon-192x192.png">
+            </ion-img>
+          </ion-avatar>
+          <ion-card-header>
+            <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
+            <ion-card-title>{{x.game.name}}</ion-card-title>
+            <p></p>
+            <div text-wrap *ngFor="let genre of x.game.genres?.slice(0, 1);">
+              <ion-badge>{{ genre.name }}</ion-badge>
+              <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
+            </div>
+            <p></p>
+            <div class="horizontal">
+              <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
+                <img src="assets/platform-icons/{{ customSlug }}.svg" class="platform_theme" />
+              </div>
+            </div>
+            <p></p>
+            <ion-text *ngIf=" x.game.summary?.length > 0">{{ x.game.summary }}</ion-text>
+          </ion-card-header>
+        </ion-item>
+      </ion-card>
+    </ion-list>
+    <ion-infinite-scroll threshold="500px" (ionInfinite)="getNextBatch($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-content>
+</ng-template>
+
+<!-- Skeleton Loading screen -->
+<ng-template #showLoading>
+  <ion-content>
+    <ion-card *ngFor="let number of [0,1,2,3,4,6,7]">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-card-header>
+          <ion-card-subtitle>
+            <ion-skeleton-text animated style="width: 92px; height: 16px">
+            </ion-skeleton-text>
+          </ion-card-subtitle>
+          <ion-card-title>
+            <ion-skeleton-text animated style="width: 180px; height: 20px">
+            </ion-skeleton-text>
+          </ion-card-title>
+          <p></p>
+          <ion-skeleton-text animated style="width: 50px; height: 20px">
+          </ion-skeleton-text>
+          <p></p>
+          <ion-skeleton-text animated style="width: 22px; height: 22px">
+          </ion-skeleton-text>
+        </ion-card-header>
+      </ion-item>
+    </ion-card>
+  </ion-content>
+</ng-template>
+
+<!-- Skeleton Filter warning -->
+<ng-template #showFilterWarning>
+  <ion-content>
+    <ion-card>
+      <ion-item>
+        <ion-avatar class='warning-sign' slot="start">
+          <ion-img src="assets/other/warning-sign.svg">
+          </ion-img>
+        </ion-avatar>
+        <ion-card-header>
+          <ion-card-title>
+            No choices selected in Filter 😔
+          </ion-card-title>
+          <ion-card-subtitle>
+            Please select at least one 'Platform' from the Filter.
+          </ion-card-subtitle>
+        </ion-card-header>
+      </ion-item>
+    </ion-card>
+  </ion-content>
+</ng-template>

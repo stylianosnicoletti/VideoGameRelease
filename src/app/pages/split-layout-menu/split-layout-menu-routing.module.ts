@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SplitLayoutPage } from './split-layout.page';
+import { SplitLayoutMenuPage } from './split-layout-menu.page';
 
 const routes: Routes = [
   {
-    path: '', // If user does not enter anything in URL reroute 'platforms/All'
-    redirectTo: 'platforms/All',
+    path: '', // If user does not enter anything in URL reroute 'games-list'
+    redirectTo: 'games-list',
     pathMatch: 'full'
   },
   {
     path: '',
-    component: SplitLayoutPage,
+    component: SplitLayoutMenuPage,
     children:
     [
       {
-        path: 'platforms/:id',
-        loadChildren: () => import('../platforms/platforms.module').then(m => m.PlatformsPageModule)
+        path: 'games-list',
+        loadChildren: () => import('../games-list/games-list.module').then(m => m.GamesListPageModule)
       }
     ]  
   },
   {
     path: '**', //If path doesn't match anything reroute to 'menu' (Leave it at the end)
-    redirectTo: 'platforms/All',
+    redirectTo: 'games-list',
     pathMatch: 'full'
   }
 ];
@@ -29,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SplitLayoutPageRoutingModule { }
+export class SplitLayoutMenuPageRoutingModule { }

@@ -45,23 +45,14 @@ ion-badge {
   margin: 0px 10px 0px 0px;
 }
 
-.instagram-img{
-  width: 28px;
-  height: 28px;
-}
-
-.iIcon {
-  width: 28px;
-  height: 28px;
+.logoIcon {
+  width: 38px;
+  height: 38px;
 
 }
-.iIcon img {
-  width: 28px;
-  height: 28px;
-
-}
-.iIcon img:active {
-  transform: scale(0.9);
+.logoIcon img {
+  width: 38px;
+  height: 38px;
 }
 
 cdk-virtual-scroll-viewport {
@@ -94,4 +85,9 @@ ion-card-title {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   font-size: 16.5px;
+}
+
+.warning-sign { 
+  width: 50px;  
+  height: 50px;  
 }

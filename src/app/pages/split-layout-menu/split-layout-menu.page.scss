@@ -118,15 +118,24 @@ ion-item.selected {
   --color: var(--ion-color-primary);
 }
 
-.platform_theme_all {
-  width: 38px;
-  height: 38px;
-  //#8e229b
-  //https://codepen.io/sosuke/pen/Pjoqqp
-  filter: invert(17%) sepia(95%) saturate(2431%) hue-rotate(281deg) brightness(88%) contrast(94%);
+
+.iIcon {
+  width: 28px;
+  height: 28px;
+
+}
+.iIcon img {
+  width: 28px;
+  height: 28px;
+
+}
+
+.iIcon img:active {
+  transform: scale(0.9);
 }
 
 .platform_theme {
-  width: 38px;
-  height: 38px;
+  width: 26px;
+  height: 26px;
+  margin: 0px 10px 0px 16px;
 }

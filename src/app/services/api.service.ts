@@ -19,43 +19,7 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public async getSinglePlatformUpComingReleaseDatesAscendingAsync(
-    platformIds: PlatformId[],
-    take: Number,
-    offset: Number,
-    fromDate: Number
-  ): Promise<Observable<ReleaseDate[]>> {
-    return await this.httpClient.post<ReleaseDate[]>(
-      this._proxyUrl + 'v4/release_dates',
-      `
-      fields
-        human,
-        platform.slug,
-        game.id,
-        game.name,
-        game.url,
-        game.summary,
-        game.cover.url,
-        game.genres.name;
-      where
-        platform = (${platformIds}) &
-        date >= ${fromDate} &
-        human = *", 20"* &
-        game.summary != null &
-        game.genres > 0 &
-        game.cover.url != null &
-        (game.follows != null | game.hypes != null);
-      sort
-        date asc;
-      limit
-        ${take};
-      offset
-        ${offset};`,
-      this._httpOptions
-    );
-  }
-
-  public async getMultiPlatformUpComingReleaseDatesAscendingAsync(
+  public async getReleaseDatesAscendingAsync(
     platformIds: PlatformId[],
     take: Number,
     offset: Number,
