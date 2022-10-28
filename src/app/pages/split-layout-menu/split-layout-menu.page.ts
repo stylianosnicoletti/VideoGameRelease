@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PlatformId } from 'src/app/enums/platformId';
+import { FilterPlatform } from 'src/app/interfaces/videogamerelease/filterPlatform';
+
 
 @Component({
   selector: 'app-split-layout-menu',
@@ -8,46 +11,48 @@ import { Router } from '@angular/router';
 })
 export class SplitLayoutMenuPage implements OnInit {
 
-  public appPages = [
-    { title: 'All', url: '/menu/games-list/All', icon: 'assets/platform-icons/All.svg', theme: 'platform_theme_all' },
-    { title: 'Windows', url: '/menu/games-list/Windows', icon: 'assets/platform-icons/win.svg', theme: 'platform_theme' },
-    { title: 'Linux', url: '/menu/games-list/Linux', icon: 'assets/platform-icons/linux.svg', theme: 'platform_theme' },
-    { title: 'PlayStation 5', url: '/menu/games-list/PS5', icon: 'assets/platform-icons/ps5.svg', theme: 'platform_theme' },
-    { title: 'Xbox Series X', url: '/menu/games-list/XSX', icon: 'assets/platform-icons/series-x.svg', theme: 'platform_theme' },
-    { title: 'Nintendo Switch', url: '/menu/games-list/NX', icon: 'assets/platform-icons/switch.svg', theme: 'platform_theme' },
-    { title: 'Android', url: '/menu/games-list/Android', icon: 'assets/platform-icons/android.svg', theme: 'platform_theme' },
-    { title: 'iOS', url: '/menu/games-list/IOS', icon: 'assets/platform-icons/ios.svg', theme: 'platform_theme' },
-  ];
-
+  isIndeterminate: boolean = false;
+  masterCheck: boolean = true;
+  filterPlatforms: FilterPlatform[];
 
   constructor(
     private _router: Router
   ) { }
 
   async ngOnInit() {
-    //console.log("here i am")
+    //console.log("ngOnInit")
+    this.filterPlatforms = [
+      { Name: 'Windows', PlatformId: PlatformId.Windows, IsChecked: true },
+      { Name: 'Linux', PlatformId: PlatformId.Linux, IsChecked: true },
+      { Name: 'PlayStation 5', PlatformId: PlatformId.PS5, IsChecked: true },
+      { Name: 'Xbox Series X', PlatformId: PlatformId.XSX, IsChecked: true },
+      { Name: 'Nintendo Switch', PlatformId: PlatformId.NX, IsChecked: true },
+      { Name: 'Android', PlatformId: PlatformId.Android, IsChecked: true },
+      { Name: 'iOS', PlatformId: PlatformId.IOS, IsChecked: true },
+    ];
+    this.filterChangeEvent();
   }
 
-  async ionViewWillEnter() {
-    //await this.getListData();
-    //console.log('ionViewWillEnter  ' + this.platformDetails);
+  async ionViewWillEnter() {  
+    //console.log('ionViewWillEnter  ');
   }
 
   async ionViewDidEnter() {
-    //console.log('ionViewDidEnter  ' + this.platformDetails);
+    //console.log('ionViewDidEnter  ' );
+    //this.filterChangeEvent();
+
   }
 
   async ionViewWillLeave() {
-    //console.log('ionViewWillLeave  ' + this.platformDetails);
+    //console.log('ionViewWillLeave  ');
   }
 
   async ionViewDidLeave() {
-    //console.log('ionViewDidLeave  ' + this.platformDetails);
+    //console.log('ionViewDidLeave  ');
   }
 
   async ngOnDestroy() {
-
-    //console.log('ngOnDestroy  ' + this.platformDetails);
+    //console.log('ngOnDestroy  ');
   }
 
   /**
@@ -58,14 +63,56 @@ export class SplitLayoutMenuPage implements OnInit {
     window.open(url, "_blank");
   }
 
-  onFilterChange() {
-    this._router.navigate(['/menu/games-list/Windows'], {
-      queryParams: {
-        platform: ["PS5","Windows"],
-        genre: ["aa"]//Math.floor(Math.random() *50000),
-      } //to override previous params
+  filterChangeEvent() {
+    setTimeout(() => {
+      this._router.navigate(['/menu/games-list/'], {
+        queryParams: {
+          platform: this.filterPlatforms.filter(x => x.IsChecked).reduce(function (accumulator, currentValue) {
+            accumulator.push(PlatformId[currentValue.PlatformId]);
+            return accumulator;
+          }, []),
+          //genre: ["All"]
+        }
+      })
     });
-
-
   }
+
+
+  /**
+   * For Master CheckBox.
+   */
+  checkMaster() {
+    setTimeout(() => {
+      this.filterPlatforms.forEach(entry => {
+        entry.IsChecked = this.masterCheck;
+      });
+      this.filterChangeEvent();
+    });
+  }
+
+  /**
+   * On check entry (event) logic.
+   */
+  checkEvent() {
+    //console.log("checkevent")
+    const totalItems = 7; // 7
+    let checked = 0;
+    this.filterPlatforms.map(entry => {
+      if (entry.IsChecked) checked++;
+    });
+    if (checked > 0 && checked < totalItems) {
+      //If even one item is checked but not all
+      this.isIndeterminate = true;
+      this.masterCheck = false;
+    } else if (checked == totalItems) {
+      //If all are checked
+      this.masterCheck = true;
+      this.isIndeterminate = false;
+    } else {
+      //If none is checked
+      this.isIndeterminate = false;
+      this.masterCheck = false;
+    }
+  }
+
 }

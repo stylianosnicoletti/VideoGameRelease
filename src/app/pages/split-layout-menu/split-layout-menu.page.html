@@ -7,43 +7,31 @@
         <ion-note></ion-note>
 
         <ion-accordion-group>
-          <ion-button (click) = "onFilterChange()">KJss</ion-button>
           <ion-accordion value="first">
             <ion-item slot="header">
               <ion-label><b>Platforms</b></ion-label>
             </ion-item>
+
             <ion-item slot="content">
-              <ion-label>All</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
+              <ion-label>&nbsp;<b>Select All</b></ion-label>
+              <ion-checkbox
+              slot="end"
+              [(ngModel)]="masterCheck"
+              [indeterminate]="isIndeterminate"
+              (click)="checkMaster()"
+            ></ion-checkbox>
             </ion-item>
-            <ion-item slot="content">
-              <ion-label>Windows</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
+
+            <ion-item *ngFor="let filterPlatform of filterPlatforms" slot="content">
+              <ion-label>&nbsp; {{filterPlatform.Name}}</ion-label>
+              <ion-checkbox
+              slot="end"
+              [(ngModel)]="filterPlatform.IsChecked"
+              (ionChange)="checkEvent()"
+              (click)="filterChangeEvent()"
+            ></ion-checkbox>
             </ion-item>
-            <ion-item slot="content">
-              <ion-label>PlayStation 5</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
-            </ion-item>
-            <ion-item slot="content">
-              <ion-label>Xbox Series X</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
-            </ion-item>
-            <ion-item slot="content">
-              <ion-label>Nintedo Switch</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
-            </ion-item>
-            <ion-item slot="content">
-              <ion-label>Android</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
-            </ion-item>
-            <ion-item slot="content">
-              <ion-label>iOS</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
-            </ion-item>
-            <ion-item slot="content">
-              <ion-label>Linux</ion-label>
-              <ion-checkbox slot="end"></ion-checkbox>
-            </ion-item>
+
           </ion-accordion>
 
           <ion-accordion value="second">

@@ -14,7 +14,6 @@ import { PlatformId } from 'src/app/enums/platformId';
 export class GamesListPage implements OnInit {
 
   currentPlatformQueryParam: string[] = [];
-  currentGenreQueryParam: string[] = [];
   platformIds: PlatformId[] = [];
   listOfGames: ReleaseDate[] = [];
   ngUnsubscribe = new Subject<void>();
@@ -23,6 +22,7 @@ export class GamesListPage implements OnInit {
   dateSecondsSinceEpoch: number = 0;
   amLoadingFlag: boolean = false;
   loadingElement;
+  noPlatformFilterSelected: boolean = false;
 
   constructor(
     private _router: Router,
@@ -31,63 +31,65 @@ export class GamesListPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    //console.log('ngOnInit  ');
+    //console.log('ngOnInit  2');
+
+  }
+
+  async ionViewWillEnter() {
+    //console.log('ionViewWillEnter 2 ');
+  }
+
+  async ionViewDidEnter() {
+
+    //console.log('ionViewDidEnter 2 ');
     this._activatedRoute.queryParamMap
       .subscribe(async q => {
-        if (this.currentPlatformQueryParam != q.getAll('platform') ||
-          this.currentGenreQueryParam != q.getAll('genre')) {
+        if (this.queriesChanged(this.currentPlatformQueryParam, q.getAll('platform'))) {
           this.currentPlatformQueryParam = q.getAll('platform');
-          this.currentGenreQueryParam = q.getAll('genre');
-          await this.queriesParamsExistGuard(q.keys, this.currentPlatformQueryParam, this.currentGenreQueryParam);
+          await this.queriesParamsExistGuard(q.keys, this.currentPlatformQueryParam);
         }
       });
   }
 
-  async ionViewWillEnter() {
-    //console.log('ionViewWillEnter  ');
-  }
-
-  async ionViewDidEnter() {
-    //console.log('ionViewDidEnter  ');
-  }
-
   async ionViewWillLeave() {
-    //console.log('ionViewWillLeave  ');
+    //console.log('ionViewWillLeave 2 ');
   }
 
   async ionViewDidLeave() {
-    //console.log('ionViewDidLeave  ');
+    //console.log('ionViewDidLeave  2');
   }
 
   async ngOnDestroy() {
-    //console.log('ngOnDestroy    ')
+    //console.log('ngOnDestroy 2   ')
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     //console.log('ngOnDestroy  ' + this.platformDetails);
   }
 
-  async queriesParamsExistGuard(keys: string[], platformQP: string[], genreQP: string[]): Promise<void> {
+  async queriesParamsExistGuard(keys: string[], platformQP: string[]): Promise<void> {
+    //console.log("guard")
     this.offset = 0
     this.listOfGames = [];
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
     this.platformIds = [];
+    this.noPlatformFilterSelected = false;
 
     platformQP.forEach(platform => {
       //console.log(PlatformId[platform])
       this.platformIds.push(PlatformId[platform]);
     });
 
-    //do same for genre
-
-    if (keys.length != 2 ||
-        !keys.includes("platform") ||
-        !keys.includes("genre") ||
-        this.platformIds.length == 0 || this.platformIds.includes(undefined)) {
-      await this.reNavigateWithDefaultQueryParams();
-
-      //do same for genre
-
-    } else {
+    if (keys.length != 1 ||
+      !keys.includes("platform") ||
+      this.platformIds.includes(undefined)) {
+      // Force refresh and Navigate to root
+      const parsedUrl = new URL(window.location.href);
+      const baseUrl = parsedUrl.origin;
+      window.location.href = baseUrl;
+    } else if (this.platformIds.length == 0) {
+      this.noPlatformFilterSelected = true;
+    }
+    else {
       await this.getListData();
     }
   }
@@ -174,14 +176,17 @@ export class GamesListPage implements OnInit {
     return distinctItemList;
   }
 
-  async reNavigateWithDefaultQueryParams() {
-    this._router.navigate(['/menu/games-list'], {
-      queryParams: {
-        platform: ["Windows", "Linux", "PS5", "XSX", "NX", "Android", "IOS"],
-        genre: ["aa"],
-      }
-    });
+  queriesChanged(a, b) {
+    //console.log(a);
+    //console.log(b);
+    if (a == null || b == null) return true;
+    if (a.length == 0 || b.length == 0) return true;
+    if (a === b) return false;
+    if (a.length !== b.length) return true;
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return true;
+    }
+    return false;
   }
-
 
 }
