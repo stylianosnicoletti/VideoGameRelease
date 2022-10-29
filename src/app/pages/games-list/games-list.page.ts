@@ -42,7 +42,7 @@ export class GamesListPage implements OnInit {
   async ionViewDidEnter() {
 
     //console.log('ionViewDidEnter 2 ');
-    this._activatedRoute.queryParamMap
+    await this._activatedRoute.queryParamMap
       .subscribe(async q => {
         if (this.queriesChanged(this.currentPlatformQueryParam, q.getAll('platform'))) {
           this.currentPlatformQueryParam = q.getAll('platform');
@@ -68,13 +68,16 @@ export class GamesListPage implements OnInit {
 
   async queriesParamsExistGuard(keys: string[], platformQP: string[]): Promise<void> {
     //console.log("guard")
+    await this.ngUnsubscribe.next();
+    await this.ngUnsubscribe.complete();
     this.offset = 0
     this.listOfGames = [];
+    //console.log(this.listOfGames);
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
     this.platformIds = [];
     this.noPlatformFilterSelected = false;
 
-    platformQP.forEach(platform => {
+    await platformQP.forEach(platform => {
       //console.log(PlatformId[platform])
       this.platformIds.push(PlatformId[platform]);
     });
@@ -90,17 +93,19 @@ export class GamesListPage implements OnInit {
       this.noPlatformFilterSelected = true;
     }
     else {
-      await this.getListData();
+      await this.getListData(true);
     }
   }
 
-  async getListData(event?) {
+  async getListData(clearCurrentList: boolean, event?) {
     //console.log(this.platformIds);
+    //console.log(this.listOfGames);
     await (await this._apiService
       .getReleaseDatesAscendingAsync(this.platformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(async (data) => {
-        //console.log(data);
+        console.log(data);
+        if(clearCurrentList) this.listOfGames = []; // needed when very fast selecting platforms was messing the list. 
         const tempList: ReleaseDate[] = [];
         // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
         const lastItem: ReleaseDate = this.listOfGames.pop();
@@ -132,7 +137,7 @@ export class GamesListPage implements OnInit {
     this.offset += this.take;
     await this.ngUnsubscribe.next();
     await this.ngUnsubscribe.complete();
-    await this.getListData(event);
+    await this.getListData(false,event);
   }
 
   async doRefresh() {
@@ -141,7 +146,7 @@ export class GamesListPage implements OnInit {
     this.offset = 0
     this.listOfGames = [];
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
-    await this.getListData();
+    await this.getListData(true);
   }
 
   async getDateSecondsSinceEpoch(dayOffsetToday: number): Promise<number> {
