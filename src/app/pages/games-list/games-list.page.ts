@@ -104,7 +104,7 @@ export class GamesListPage implements OnInit {
       .getReleaseDatesAscendingAsync(this.platformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(async (data) => {
-        console.log(data);
+        //console.log(data);
         if(clearCurrentList) this.listOfGames = []; // needed when very fast selecting platforms was messing the list. 
         const tempList: ReleaseDate[] = [];
         // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
