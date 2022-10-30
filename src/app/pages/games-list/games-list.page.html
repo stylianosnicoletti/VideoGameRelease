@@ -36,40 +36,45 @@
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
 
     <ion-list>
-      <ion-card *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;" (click)="gameClicked(x.game.id)">
-        <ion-item button>
-          <ion-avatar slot="start">
-            <ion-img *ngIf="x.game?.cover?.url != null" src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
-            </ion-img>
-            <ion-img *ngIf="x.game?.cover?.url == null" src="assets/icons/icon-192x192.png">
-            </ion-img>
-          </ion-avatar>
-          <ion-card-header>
-            <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
-            <ion-card-title>{{x.game.name}}</ion-card-title>
-            <p></p>
-            <div text-wrap *ngFor="let genre of x.game.genres?.slice(0, 1);">
-              <ion-badge>{{ genre.name }}</ion-badge>
-              <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
-            </div>
-            <p></p>
-            <div class="horizontal">
-              <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
-                <img src="assets/platform-icons/{{ customSlug }}.svg" class="platform_theme" />
+      <div *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;" (click)="gameClicked(x.game.id)">
+        <ion-card>
+          <ion-item button>
+            <ion-avatar slot="start">
+              <ion-img *ngIf="x.game?.cover?.url != null"
+                src='{{ x.game.cover.url.replace("t_thumb", "t_cover_big") }}'>
+              </ion-img>
+              <ion-img *ngIf="x.game?.cover?.url == null" src="assets/icons/icon-192x192.png">
+              </ion-img>
+            </ion-avatar>
+            <ion-card-header>
+              <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
+              <ion-card-title>{{x.game.name}}</ion-card-title>
+              <p></p>
+              <div text-wrap *ngFor="let genre of x.game.genres?.slice(0, 1);">
+                <ion-badge>{{ genre.name }}</ion-badge>
+                <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
               </div>
-            </div>
-            <p></p>
-            <ion-text *ngIf=" x.game.summary?.length > 0">{{ x.game.summary }}</ion-text>
-          </ion-card-header>
-        </ion-item>
-      </ion-card>
+              <p></p>
+              <div class="horizontal">
+                <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
+                  <img src="assets/platform-icons/{{ customSlug }}.svg" class="platform_theme" />
+                </div>
+              </div>
+              <p></p>
+              <ion-text *ngIf=" x.game.summary?.length > 0">{{ x.game.summary }}</ion-text>
+            </ion-card-header>
+          </ion-item>
+        </ion-card>
+        <ion-card *ngIf="(i != 0) && (i % 15 == 0)">
+          <ng-adsense></ng-adsense>
+        </ion-card>
+      </div>
     </ion-list>
     <ion-infinite-scroll threshold="500px" (ionInfinite)="getNextBatch($event)">
       <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
       </ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </ion-content>
-  <ng-adsense *ngIf="listOfGames.length > 25"></ng-adsense>
 </ng-template>
 
 <!-- Skeleton Loading screen -->
