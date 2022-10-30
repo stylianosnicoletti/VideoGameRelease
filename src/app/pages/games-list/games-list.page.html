@@ -65,9 +65,7 @@
             </ion-card-header>
           </ion-item>
         </ion-card>
-        <ion-card *ngIf="(i != 0) && (i % 15 == 0)">
-          <ng-adsense></ng-adsense>
-        </ion-card>
+        <ng-adsense *ngIf="(i != 0) && (i % 15 == 0)"></ng-adsense>
       </div>
     </ion-list>
     <ion-infinite-scroll threshold="500px" (ionInfinite)="getNextBatch($event)">
