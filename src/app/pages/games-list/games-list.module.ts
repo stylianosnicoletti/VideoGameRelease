@@ -14,7 +14,6 @@ import { AdsenseModule } from 'ng2-adsense';
     AdsenseModule.forRoot({
       adClient: 'ca-pub-4170899751020775',
       adSlot: 2011758199,
-      height: 160
     }),
     RouterModule.forChild([{ 
       path: '',

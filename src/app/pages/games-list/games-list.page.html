@@ -36,8 +36,8 @@
       To use these experiences with virtual scrolling, you must add the .ion-content-scroll-host class to the virtual scroll viewport.-->
 
     <ion-list>
-      <div *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;" (click)="gameClicked(x.game.id)">
-        <ion-card>
+      <div *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;">
+        <ion-card (click)="gameClicked(x.game.id)">
           <ion-item button>
             <ion-avatar slot="start">
               <ion-img *ngIf="x.game?.cover?.url != null"
@@ -65,7 +65,7 @@
             </ion-card-header>
           </ion-item>
         </ion-card>
-        <ng-adsense *ngIf="(i != 0) && (i % 15 == 0)"></ng-adsense>
+        <ng-adsense *ngIf="(i != 0) && (i % 15 == 0)" [height]="160"></ng-adsense>
       </div>
     </ion-list>
     <ion-infinite-scroll threshold="500px" (ionInfinite)="getNextBatch($event)">
