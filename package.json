@@ -31,6 +31,7 @@
     "cookieconsent": "^3.1.1",
     "firebase": "^9.10.0",
     "ionicons": "^6.0.3",
+    "ng2-adsense": "^11.0.0",
     "ngx-cookieconsent": "^2.2.3",
     "rxjs": "~7.5.6",
     "tslib": "^2.4.0",
