@@ -80,7 +80,7 @@ export class GamesListPage implements OnInit {
     platformQP: string[],
     searchQP: string
   ): Promise<void> {
-    console.log('guard');
+    //console.log('guard');
     await this.ngUnsubscribe.next();
     await this.ngUnsubscribe.complete();
     this.offset = 0;
