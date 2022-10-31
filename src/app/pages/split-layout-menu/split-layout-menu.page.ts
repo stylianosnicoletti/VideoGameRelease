@@ -14,6 +14,7 @@ export class SplitLayoutMenuPage implements OnInit {
   isIndeterminate: boolean = false;
   masterCheck: boolean = true;
   filterPlatforms: FilterPlatform[];
+  searchTerm: string = "";
 
   constructor(
     private _router: Router
@@ -71,7 +72,7 @@ export class SplitLayoutMenuPage implements OnInit {
             accumulator.push(PlatformId[currentValue.PlatformId]);
             return accumulator;
           }, []),
-          //genre: ["All"]
+          search: this.searchTerm,
         }
       })
     });

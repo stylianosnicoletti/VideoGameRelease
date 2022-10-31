@@ -11,15 +11,21 @@
   </ion-toolbar>
 </ion-header>
 
-<div *ngIf="listOfGames.length == 0 && noPlatformFilterSelected == false; then showLoading else continue">
+<div *ngIf="listOfGames.length == 0 && noPlatformFilterSelected == false && noGamesFound == false; then showLoading else continue">
   <!-- Normal screen -->
-
   <!-- Skeleton in here-->
 </div>
 
 
 <ng-template #continue>
-  <div *ngIf="noPlatformFilterSelected; then showFilterWarning else showListOfGames">
+  <div *ngIf="noPlatformFilterSelected; then showFilterWarning else continueToListGames">
+    <!-- Normal screen -->
+    <!-- Skeleton in here-->
+  </div>
+</ng-template>
+
+<ng-template #continueToListGames>
+  <div *ngIf="noGamesFound; then noGamesFoundToList else showListOfGames">
     <!-- Normal screen -->
     <!-- Skeleton in here-->
   </div>
@@ -120,6 +126,25 @@
           <ion-card-subtitle>
             Please select at least one 'Platform' from the Filter.
           </ion-card-subtitle>
+        </ion-card-header>
+      </ion-item>
+    </ion-card>
+  </ion-content>
+</ng-template>
+
+<!-- Skeleton No Games Found warning -->
+<ng-template #noGamesFoundToList>
+  <ion-content>
+    <ion-card>
+      <ion-item>
+        <ion-avatar class='warning-sign' slot="start">
+          <ion-img src="assets/other/warning-sign.svg">
+          </ion-img>
+        </ion-avatar>
+        <ion-card-header>
+          <ion-card-title>
+            No upcoming games found 😔
+          </ion-card-title>
         </ion-card-header>
       </ion-item>
     </ion-card>

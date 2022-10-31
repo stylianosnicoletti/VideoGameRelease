@@ -12,7 +12,6 @@ import { PlatformId } from 'src/app/enums/platformId';
   styleUrls: ['./games-list.page.scss'],
 })
 export class GamesListPage implements OnInit {
-
   currentPlatformQueryParam: string[] = [];
   platformIds: PlatformId[] = [];
   listOfGames: ReleaseDate[] = [];
@@ -23,16 +22,17 @@ export class GamesListPage implements OnInit {
   amLoadingFlag: boolean = false;
   loadingElement;
   noPlatformFilterSelected: boolean = false;
+  searchInput: string = '';
+  noGamesFound = false;
 
   constructor(
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _apiService: ApiService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     //console.log('ngOnInit  2');
-
   }
 
   async ionViewWillEnter() {
@@ -40,15 +40,24 @@ export class GamesListPage implements OnInit {
   }
 
   async ionViewDidEnter() {
-
     //console.log('ionViewDidEnter 2 ');
-    await this._activatedRoute.queryParamMap
-      .subscribe(async q => {
-        if (this.queriesChanged(this.currentPlatformQueryParam, q.getAll('platform'))) {
-          this.currentPlatformQueryParam = q.getAll('platform');
-          await this.queriesParamsExistGuard(q.keys, this.currentPlatformQueryParam);
-        }
-      });
+    await this._activatedRoute.queryParamMap.subscribe(async (q) => {
+      if (
+        this.queriesChanged(
+          this.currentPlatformQueryParam,
+          q.getAll('platform')
+        ) ||
+        this.searchInput != q.get('search')
+      ) {
+        this.currentPlatformQueryParam = q.getAll('platform');
+        this.searchInput = q.get('search');
+        await this.queriesParamsExistGuard(
+          q.keys,
+          this.currentPlatformQueryParam,
+          this.searchInput
+        );
+      }
+    });
   }
 
   async ionViewWillLeave() {
@@ -66,33 +75,41 @@ export class GamesListPage implements OnInit {
     //console.log('ngOnDestroy  ' + this.platformDetails);
   }
 
-  async queriesParamsExistGuard(keys: string[], platformQP: string[]): Promise<void> {
-    //console.log("guard")
+  async queriesParamsExistGuard(
+    keys: string[],
+    platformQP: string[],
+    searchQP: string
+  ): Promise<void> {
+    console.log('guard');
     await this.ngUnsubscribe.next();
     await this.ngUnsubscribe.complete();
-    this.offset = 0
+    this.offset = 0;
+    this.noGamesFound = false;
     this.listOfGames = [];
     //console.log(this.listOfGames);
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
     this.platformIds = [];
     this.noPlatformFilterSelected = false;
 
-    await platformQP.forEach(platform => {
+    await platformQP.forEach((platform) => {
       //console.log(PlatformId[platform])
       this.platformIds.push(PlatformId[platform]);
     });
 
-    if (keys.length != 1 ||
-      !keys.includes("platform") ||
-      this.platformIds.includes(undefined)) {
+    if (
+      keys.length != 2 ||
+      !keys.includes('platform') ||
+      !keys.includes('search') ||
+      this.platformIds.includes(undefined) ||
+      searchQP.length > 30
+    ) {
       // Force refresh and Navigate to root
       const parsedUrl = new URL(window.location.href);
       const baseUrl = parsedUrl.origin;
       window.location.href = baseUrl;
     } else if (this.platformIds.length == 0) {
       this.noPlatformFilterSelected = true;
-    }
-    else {
+    } else {
       await this.getListData(true);
     }
   }
@@ -100,12 +117,19 @@ export class GamesListPage implements OnInit {
   async getListData(clearCurrentList: boolean, event?) {
     //console.log(this.platformIds);
     //console.log(this.listOfGames);
-    await (await this._apiService
-      .getReleaseDatesAscendingAsync(this.platformIds, this.take, this.offset, this.dateSecondsSinceEpoch))
+    await (
+      await this._apiService.getReleaseDatesAscendingAsync(
+        this.platformIds,
+        this.take,
+        this.offset,
+        this.dateSecondsSinceEpoch,
+        this.searchInput,
+      )
+    )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(async (data) => {
         //console.log(data);
-        if(clearCurrentList) this.listOfGames = []; // needed when very fast selecting platforms was messing the list. 
+        if (clearCurrentList) this.listOfGames = []; // needed when very fast selecting platforms was messing the list.
         const tempList: ReleaseDate[] = [];
         // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
         const lastItem: ReleaseDate = this.listOfGames.pop();
@@ -116,20 +140,23 @@ export class GamesListPage implements OnInit {
         tempList.push(...data);
         //console.log(tempList);
 
-        var distinctItemList = await this.prepareDistinctMultiPlatformDataAsync(tempList);
+        var distinctItemList = await this.prepareDistinctMultiPlatformDataAsync(
+          tempList
+        );
         //console.log(distinctItemList);
 
         await this.listOfGames.push(...distinctItemList);
         this.listOfGames = [...this.listOfGames]; // this is required to update new data on html.
         //console.log(this.listOfGames);
+        if (clearCurrentList && this.listOfGames.length == 0) {
+          this.noGamesFound = true;
+        }
         event?.target.complete();
       });
   }
 
   async gameClicked(gameId) {
-    await this._router.navigate([
-      "/game/" + gameId,
-    ]);
+    await this._router.navigate(['/game/' + gameId]);
   }
 
   async getNextBatch(event) {
@@ -137,21 +164,26 @@ export class GamesListPage implements OnInit {
     this.offset += this.take;
     await this.ngUnsubscribe.next();
     await this.ngUnsubscribe.complete();
-    await this.getListData(false,event);
+    await this.getListData(false, event);
   }
 
   async doRefresh() {
     await this.ngUnsubscribe.next();
     await this.ngUnsubscribe.complete();
-    this.offset = 0
+    this.offset = 0;
     this.listOfGames = [];
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
+    this.noGamesFound = false;
     await this.getListData(true);
   }
 
   async getDateSecondsSinceEpoch(dayOffsetToday: number): Promise<number> {
     const now = new Date();
-    const dateToReturn = new Date(now.getFullYear(), now.getMonth(), now.getDate() + dayOffsetToday);
+    const dateToReturn = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + dayOffsetToday
+    );
     dateToReturn.setHours(0, 0, 0, 0);
     const secondsSinceEpoch = Math.round(dateToReturn.getTime() / 1000);
     return secondsSinceEpoch;
@@ -161,7 +193,9 @@ export class GamesListPage implements OnInit {
     return i;
   }
 
-  async prepareDistinctMultiPlatformDataAsync(list: ReleaseDate[]): Promise<ReleaseDate[]> {
+  async prepareDistinctMultiPlatformDataAsync(
+    list: ReleaseDate[]
+  ): Promise<ReleaseDate[]> {
     var temporaryMap = {};
     var distinctItemList = list.reduce(function (r, o) {
       o.customMultiPlatformFoundSlugs = new Set();

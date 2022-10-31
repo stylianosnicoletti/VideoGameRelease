@@ -23,7 +23,8 @@ export class ApiService {
     platformIds: PlatformId[],
     take: Number,
     offset: Number,
-    fromDate: Number
+    fromDate: Number,
+    searchInput: string,
   ): Promise<Observable<ReleaseDate[]>> {
     return await this.httpClient.post<ReleaseDate[]>(
       this._proxyUrl + 'v4/release_dates',
@@ -44,7 +45,8 @@ export class ApiService {
         game.summary != null &
         game.genres > 0 &
         game.cover.url != null &
-        (game.follows != null | game.hypes != null);
+        (game.follows != null | game.hypes != null) &
+        game.name ~ *"${searchInput}"* ;
       sort
         date asc;
       limit
