@@ -24,17 +24,17 @@ export class SplitLayoutMenuPage implements OnInit {
     //console.log("ngOnInit")
     this.filterPlatforms = [
       { Name: 'Windows', PlatformId: PlatformId.Windows, IsChecked: true, CustomSlug: 'win' },
-      { Name: 'Linux', PlatformId: PlatformId.Linux, IsChecked: true , CustomSlug: 'linux' },
-      { Name: 'PlayStation 5', PlatformId: PlatformId.PS5, IsChecked: true , CustomSlug: 'ps5' },
-      { Name: 'Xbox Series X', PlatformId: PlatformId.XSX, IsChecked: true , CustomSlug: 'series-x' },
-      { Name: 'Nintendo Switch', PlatformId: PlatformId.NX, IsChecked: true , CustomSlug: 'switch' },
-      { Name: 'Android', PlatformId: PlatformId.Android, IsChecked: true , CustomSlug: 'android' },
-      { Name: 'iOS', PlatformId: PlatformId.IOS, IsChecked: true , CustomSlug: 'ios' },
+      { Name: 'Linux', PlatformId: PlatformId.Linux, IsChecked: true, CustomSlug: 'linux' },
+      { Name: 'PlayStation 5', PlatformId: PlatformId.PS5, IsChecked: true, CustomSlug: 'ps5' },
+      { Name: 'Xbox Series X', PlatformId: PlatformId.XSX, IsChecked: true, CustomSlug: 'series-x' },
+      { Name: 'Nintendo Switch', PlatformId: PlatformId.NX, IsChecked: true, CustomSlug: 'switch' },
+      { Name: 'Android', PlatformId: PlatformId.Android, IsChecked: true, CustomSlug: 'android' },
+      { Name: 'iOS', PlatformId: PlatformId.IOS, IsChecked: true, CustomSlug: 'ios' },
     ];
     this.filterChangeEvent();
   }
 
-  async ionViewWillEnter() {  
+  async ionViewWillEnter() {
     //console.log('ionViewWillEnter  ');
   }
 
@@ -94,7 +94,7 @@ export class SplitLayoutMenuPage implements OnInit {
   /**
    * On check entry (event) logic.
    */
-  checkEvent() {
+  checkEvent(platformId: PlatformId) {
     //console.log("checkevent")
     const totalItems = this.filterPlatforms.length;
     let checked = 0;
@@ -103,16 +103,17 @@ export class SplitLayoutMenuPage implements OnInit {
     });
     if (checked > 0 && checked < totalItems) {
       //If even one item is checked but not all
-      this.isIndeterminate = true;
-      this.masterCheck = false;
+      console.log("at least one")
     } else if (checked == totalItems) {
       //If all are checked
-      this.masterCheck = true;
-      this.isIndeterminate = false;
+      console.log("all")
     } else {
-      //If none is checked
-      this.isIndeterminate = false;
-      this.masterCheck = false;
+      //If none is checked.
+      //Check all others except the last unchecked.
+      console.log("none")
+      this.filterPlatforms.forEach(x => {
+        if (x.PlatformId != platformId) x.IsChecked = true
+      });
     }
   }
 

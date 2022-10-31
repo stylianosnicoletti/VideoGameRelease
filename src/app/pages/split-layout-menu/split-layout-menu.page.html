@@ -17,17 +17,6 @@
             <ion-item slot="header">
               <ion-label><b>Platforms</b></ion-label>
             </ion-item>
-
-            <ion-item slot="content">
-              <ion-label>&nbsp;<b>Select All</b></ion-label>
-              <ion-checkbox
-                slot="end"
-                [(ngModel)]="masterCheck"
-                [indeterminate]="isIndeterminate"
-                (click)="checkMaster()"
-              ></ion-checkbox>
-            </ion-item>
-
             <ion-item
               *ngFor="let filterPlatform of filterPlatforms"
               slot="content"
@@ -40,7 +29,7 @@
               <ion-checkbox
                 slot="end"
                 [(ngModel)]="filterPlatform.IsChecked"
-                (ionChange)="checkEvent()"
+                (ionChange)="checkEvent(filterPlatform.PlatformId)"
                 (click)="filterChangeEvent()"
               ></ion-checkbox>
             </ion-item>
