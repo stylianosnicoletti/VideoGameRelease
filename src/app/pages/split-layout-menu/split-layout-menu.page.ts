@@ -103,14 +103,14 @@ export class SplitLayoutMenuPage implements OnInit {
     });
     if (checked > 0 && checked < totalItems) {
       //If even one item is checked but not all
-      console.log("at least one")
+      //console.log("at least one")
     } else if (checked == totalItems) {
       //If all are checked
-      console.log("all")
+      //console.log("all")
     } else {
       //If none is checked.
       //Check all others except the last unchecked.
-      console.log("none")
+      //console.log("none")
       this.filterPlatforms.forEach(x => {
         if (x.PlatformId != platformId) x.IsChecked = true
       });
