@@ -21,7 +21,6 @@ export class GamesListPage implements OnInit {
   dateSecondsSinceEpoch: number = 0;
   amLoadingFlag: boolean = false;
   loadingElement;
-  noPlatformFilterSelected: boolean = false;
   searchInput: string = '';
   noGamesFound = false;
 
@@ -89,7 +88,6 @@ export class GamesListPage implements OnInit {
     //console.log(this.listOfGames);
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
     this.platformIds = [];
-    this.noPlatformFilterSelected = false;
 
     await platformQP.forEach((platform) => {
       //console.log(PlatformId[platform])
@@ -107,8 +105,6 @@ export class GamesListPage implements OnInit {
       const parsedUrl = new URL(window.location.href);
       const baseUrl = parsedUrl.origin;
       window.location.href = baseUrl;
-    } else if (this.platformIds.length == 0) {
-      this.noPlatformFilterSelected = true;
     } else {
       await this.getListData(true);
     }

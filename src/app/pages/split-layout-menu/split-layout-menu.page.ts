@@ -12,7 +12,6 @@ import { FilterPlatform } from 'src/app/interfaces/videogamerelease/filterPlatfo
 export class SplitLayoutMenuPage implements OnInit {
 
   isIndeterminate: boolean = false;
-  masterCheck: boolean = true;
   filterPlatforms: FilterPlatform[];
   searchTerm: string = "";
 
@@ -75,19 +74,6 @@ export class SplitLayoutMenuPage implements OnInit {
           search: this.searchTerm,
         }
       })
-    });
-  }
-
-
-  /**
-   * For Master CheckBox.
-   */
-  checkMaster() {
-    setTimeout(() => {
-      this.filterPlatforms.forEach(entry => {
-        entry.IsChecked = this.masterCheck;
-      });
-      this.filterChangeEvent();
     });
   }
 
