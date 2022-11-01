@@ -11,7 +11,6 @@ import { FilterPlatform } from 'src/app/interfaces/videogamerelease/filterPlatfo
 })
 export class SplitLayoutMenuPage implements OnInit {
 
-  isIndeterminate: boolean = false;
   filterPlatforms: FilterPlatform[];
   searchTerm: string = "";
 
