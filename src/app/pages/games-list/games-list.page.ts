@@ -23,6 +23,7 @@ export class GamesListPage implements OnInit {
   loadingElement;
   searchInput: string = '';
   noGamesFound = false;
+  noMoreGamesFound = false;
 
   constructor(
     private _router: Router,
@@ -80,13 +81,7 @@ export class GamesListPage implements OnInit {
     searchQP: string
   ): Promise<void> {
     //console.log('guard');
-    await this.ngUnsubscribe.next();
-    await this.ngUnsubscribe.complete();
-    this.offset = 0;
-    this.noGamesFound = false;
-    this.listOfGames = [];
-    //console.log(this.listOfGames);
-    this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
+    await this.resetInitializationVariables();
     this.platformIds = [];
 
     await platformQP.forEach((platform) => {
@@ -119,12 +114,13 @@ export class GamesListPage implements OnInit {
         this.take,
         this.offset,
         this.dateSecondsSinceEpoch,
-        this.searchInput,
+        this.searchInput
       )
     )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(async (data) => {
         //console.log(data);
+        if (data.length < 25) this.noMoreGamesFound = true;
         if (clearCurrentList) this.listOfGames = []; // needed when very fast selecting platforms was messing the list.
         const tempList: ReleaseDate[] = [];
         // Remove last element from current list to combine with newly fetched data in case of more than one platforms for that entry.
@@ -156,21 +152,29 @@ export class GamesListPage implements OnInit {
   }
 
   async getNextBatch(event) {
-    //console.log("Get moreee")
-    this.offset += this.take;
-    await this.ngUnsubscribe.next();
-    await this.ngUnsubscribe.complete();
-    await this.getListData(false, event);
+    if (!this.noMoreGamesFound) {
+      //console.log("Get moreee")
+      this.offset += this.take;
+      await this.ngUnsubscribe.next();
+      await this.ngUnsubscribe.complete();
+      await this.getListData(false, event);
+    }else{
+      event?.target.complete();
+    }
   }
 
   async doRefresh() {
+    await this.resetInitializationVariables();
+    await this.getListData(true);
+  }
+  async resetInitializationVariables() {
     await this.ngUnsubscribe.next();
     await this.ngUnsubscribe.complete();
     this.offset = 0;
+    this.noGamesFound = false;
+    this.noMoreGamesFound = false;
     this.listOfGames = [];
     this.dateSecondsSinceEpoch = await this.getDateSecondsSinceEpoch(0);
-    this.noGamesFound = false;
-    await this.getListData(true);
   }
 
   async getDateSecondsSinceEpoch(dayOffsetToday: number): Promise<number> {
