@@ -1,0 +1,7 @@
+{
+  "name": "videogamerelease",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
