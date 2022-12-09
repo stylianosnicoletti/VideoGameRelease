@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Website } from 'src/app/interfaces/igdb/website';
 import { Game } from '../../interfaces/igdb/game';
 import { ApiService } from '../../services/api.service';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-game',
@@ -83,4 +84,12 @@ export class GamePage implements OnInit {
       return website;
     }
   }
+
+  async share(){
+    await Share.share({
+      title: this.gameDetails?.name,
+      url: window.location.href,
+    });
+  }
+
 }

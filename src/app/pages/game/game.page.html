@@ -9,6 +9,11 @@
     <ion-title *ngIf="gameDetails == undefined">
       <ion-skeleton-text animated style="width: 200px; height: 24px"></ion-skeleton-text>
     </ion-title>
+    <div slot="end" class="shareIcon" id="shareIcon">
+      <ion-icon  slot="end" name="share-social-outline" (click)="share()"></ion-icon>
+    </div>
+    <ion-label slot="end">&nbsp;&nbsp;&nbsp;&nbsp;</ion-label>
+
   </ion-toolbar>
 </ion-header>
 
@@ -147,7 +152,7 @@
               <ion-item>
                 <ion-grid>
                   <ion-row>
-                    <ion-col>    
+                    <ion-col>
                       <ion-skeleton-text animated style="width: 120px; height: 20px"></ion-skeleton-text>
                       <ion-skeleton-text animated style="width: 120px; height: 20px"></ion-skeleton-text>
                       <ion-skeleton-text animated style="width: 120px; height: 20px"></ion-skeleton-text>
@@ -167,7 +172,7 @@
               <ion-item>
                 <ion-grid>
                   <ion-row>
-                    <ion-col>    
+                    <ion-col>
                       <ion-skeleton-text animated style="width: 130px; height: 20px"></ion-skeleton-text>
                       <ion-skeleton-text animated style="width: 130px; height: 20px"></ion-skeleton-text>
                     </ion-col>
@@ -188,7 +193,7 @@
         <ion-item>
           <ion-grid>
             <ion-row>
-              <ion-col>    
+              <ion-col>
                 <ion-skeleton-text animated style="width: 200px; height: 20px"></ion-skeleton-text>
                 <ion-skeleton-text animated style="width: 200px; height: 20px"></ion-skeleton-text>
                 <ion-skeleton-text animated style="width: 200px; height: 20px"></ion-skeleton-text>
@@ -196,7 +201,7 @@
             </ion-row>
           </ion-grid>
         </ion-item>
-        </ion-item-group>
+      </ion-item-group>
 
     </ion-list>
   </ion-content>

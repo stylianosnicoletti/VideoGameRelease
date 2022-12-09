@@ -13,3 +13,19 @@ ion-avatar {
   height: 160px;
   --border-radius: 3px;
 }
+
+.shareIcon {
+  width: 28px;
+  height: 28px;
+
+}
+
+.shareIcon ion-icon {
+  width: 28px;
+  height: 28px;
+
+}
+
+.shareIcon ion-icon:active {
+  transform: scale(0.7);
+}

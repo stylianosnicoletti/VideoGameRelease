@@ -26,6 +26,7 @@
     "@capacitor/core": "4.3.0",
     "@capacitor/haptics": "4.0.1",
     "@capacitor/keyboard": "4.0.1",
+    "@capacitor/share": "^4.1.0",
     "@capacitor/status-bar": "4.0.1",
     "@ionic/angular": "^6.2.8",
     "cookieconsent": "^3.1.1",
