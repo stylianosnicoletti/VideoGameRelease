@@ -76,7 +76,7 @@
 <!-- Skeleton Loading screen -->
 <ng-template #showLoading>
   <ion-content>
-    <ion-card *ngFor="let number of [0,1,2,3,4,6,7]">
+    <ion-card mode='md' *ngFor="let number of [0,1,2,3,4,6,7]">
       <ion-item>
         <ion-avatar slot="start">
           <ion-skeleton-text animated style="width: 100%; height: 100%"></ion-skeleton-text>
@@ -90,10 +90,10 @@
             <ion-skeleton-text animated style="width: 180px; height: 20px">
             </ion-skeleton-text>
           </ion-card-title>
-          <p></p>
+          <br>
           <ion-skeleton-text animated style="width: 50px; height: 20px">
           </ion-skeleton-text>
-          <p></p>
+          <br>
           <ion-skeleton-text animated style="width: 22px; height: 22px">
           </ion-skeleton-text>
         </ion-card-header>
