@@ -27,6 +27,7 @@
               />
               <ion-label>&nbsp; {{filterPlatform.Name}}</ion-label>
               <ion-checkbox
+                aria-label="platformCheckBox"
                 slot="end"
                 [(ngModel)]="filterPlatform.IsChecked"
                 (ionChange)="checkEvent(filterPlatform.PlatformId)"

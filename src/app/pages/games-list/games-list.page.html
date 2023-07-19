@@ -35,7 +35,7 @@
 
     <ion-list>
       <div *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;">
-        <ion-card (click)="gameClicked(x.game.id)">
+        <ion-card mode='md' (click)="gameClicked(x.game.id)">
           <ion-item button>
             <ion-avatar slot="start">
               <ion-img *ngIf="x.game?.cover?.url != null"
@@ -47,18 +47,18 @@
             <ion-card-header>
               <ion-card-subtitle>{{x.human}}</ion-card-subtitle>
               <ion-card-title>{{x.game.name}}</ion-card-title>
-              <p></p>
+              <br>
               <div text-wrap *ngFor="let genre of x.game.genres?.slice(0, 1);">
                 <ion-badge>{{ genre.name }}</ion-badge>
                 <ion-badge *ngIf="x.game.genres.length > 1">..</ion-badge>
               </div>
-              <p></p>
+              <br>
               <div class="horizontal">
                 <div class="horizontal" *ngFor="let customSlug of x.customMultiPlatformFoundSlugs">
                   <img src="assets/platform-icons/{{ customSlug }}.svg" class="platform_theme" />
                 </div>
               </div>
-              <p></p>
+              <br>
               <ion-text *ngIf=" x.game.summary?.length > 0">{{ x.game.summary }}</ion-text>
             </ion-card-header>
           </ion-item>
