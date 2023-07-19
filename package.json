@@ -4,6 +4,7 @@
   "author": "Stylianos Nicoletti",
   "homepage": "https://videogamerelease.com",
   "scripts": {
+    "config": "ts-node src/environments/set-env.ts",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

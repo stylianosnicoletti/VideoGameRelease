@@ -11,7 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: sudo npm install -g @ionic/cli && npm install && npm ci && ionic build --prod
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: sudo npm install -g @ionic/cli
+      - name: npm install, Run config (Set envs), build prod
+        run: |
+          npm install
+          npm run config
+          npm ci
+          ionic build --prod --configuration prodWeb --release
+        env:
+            FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+            AWS_PROXY_API_KEY: ${{ secrets.AWS_PROXY_API_KEY }}
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

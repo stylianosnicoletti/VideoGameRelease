@@ -1,6 +1,6 @@
 export const environment = {
   appVersion: "",
-  production: false,
+  production: true,
   platform: "",
   awsProxyUrl: '',
   awsProxyApiKey: "",

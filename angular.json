@@ -45,11 +45,11 @@
               "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
-            "production": {
+            "prodWeb": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.prodWeb.ts"
                 }
               ],
               "optimization": true,
@@ -82,8 +82,8 @@
             "browserTarget": "app:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "app:build:production"
+            "prodWeb": {
+              "browserTarget": "app:build:prodWeb"
             },
             "ci": {
               "progress": false
@@ -143,8 +143,8 @@
             "devServerTarget": "app:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "app:serve:production"
+            "prodWeb": {
+              "devServerTarget": "app:serve:prodWeb"
             },
             "ci": {
               "devServerTarget": "app:serve:ci"
