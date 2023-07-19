@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { environment } from '../environments/environment';
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { NgcCookieConsentService, NgcNoCookieLawEvent, NgcInitializeEvent, NgcStatusChangeEvent } from "ngx-cookieconsent";
+import { NgcCookieConsentService, NgcNoCookieLawEvent, NgcInitializingEvent, NgcStatusChangeEvent } from "ngx-cookieconsent";
 import { Subscription } from "rxjs";
 import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
 import { filter, map } from "rxjs/operators";
@@ -44,8 +44,8 @@ export class AppComponent implements OnInit, OnDestroy {
       // you can use this.ccService.getConfig() to do stuff...
     });
 
-    this.initializeSubscription = this._ccService.initialize$.subscribe(
-      (event: NgcInitializeEvent) => {
+    this.initializeSubscription = this._ccService.initializing$.subscribe(
+      (event: NgcInitializingEvent) => {
         // you can use this.ccService.getConfig() to do stuff...
       }
     );

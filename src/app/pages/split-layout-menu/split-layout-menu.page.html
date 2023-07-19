@@ -7,7 +7,7 @@
         <ion-searchbar
           debounce="370"
           [(ngModel)]="searchTerm"
-          (ionChange)="filterChangeEvent()"
+          (ionInput)="filterChangeEvent()"
           placeholder="Type game name.."
         ></ion-searchbar>
       </ion-list>
