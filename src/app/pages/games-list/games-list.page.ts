@@ -147,8 +147,8 @@ export class GamesListPage implements OnInit {
       });
   }
 
-  async gameClicked(gameId) {
-    await this._router.navigate(['/game/' + gameId]);
+  async gameClicked(gameSlug) {
+    await this._router.navigate(['/game/' + gameSlug]);
   }
 
   async getNextBatch(event) {
