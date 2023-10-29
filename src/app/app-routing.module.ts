@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/split-layout-menu/split-layout-menu.module').then(m => m.SplitLayoutMenuPageModule)
   },
   {
-    path: 'game/:id',
+    path: 'game/:gameSlug',
     loadChildren: () => import('./pages/game/game.module').then(m => m.GamePageModule)
   },
   {

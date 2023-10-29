@@ -33,6 +33,7 @@ export class ApiService {
         human,
         platform.slug,
         game.id,
+        game.slug,
         game.name,
         game.url,
         game.summary,
@@ -58,12 +59,13 @@ export class ApiService {
     );
   }
 
-  public async getGameAsync(gameId: String): Promise<Observable<Game[]>> {
+  public async getGameBySlugAsync(gameSlug: string): Promise<Observable<Game[]>> {
     return await this.httpClient.post<Game[]>(
       this._proxyUrl + 'v4/games',
       `
       fields
         name,
+        slug,
         summary,
         cover.url,
         genres.name,
@@ -71,7 +73,7 @@ export class ApiService {
         websites.trusted,
         platforms.name;
       where
-        id = (${gameId});
+        slug = "${gameSlug}" ;
       limit 
         1;
       `,

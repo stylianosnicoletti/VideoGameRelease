@@ -51,13 +51,13 @@ export class GamePage implements OnInit {
   }
 
   async gameExistGuard(): Promise<void> {
-    const gameId: String = this._activatedRoute.snapshot.paramMap.get('id')
+    const gameSlug: string = this._activatedRoute.snapshot.paramMap.get('gameSlug');
     await (await this._apiService
-      .getGameAsync(gameId))
+      .getGameBySlugAsync(gameSlug))
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(async (data) => {
-        //console.log(data[0]);
-        if (data.length == 0 || data[0]?.id?.toString() != gameId) {
+        //console.log(data);
+        if (data.length == 0 || data[0]?.slug != gameSlug) {
           this._router.navigate(['']);
         }
         this.gameDetails = data[0];
@@ -91,5 +91,6 @@ export class GamePage implements OnInit {
       url: window.location.href,
     });
   }
+
 
 }

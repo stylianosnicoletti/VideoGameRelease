@@ -35,7 +35,7 @@
 
     <ion-list>
       <div *ngFor="let x of listOfGames; let i = index; trackBy: trackByIdx;">
-        <ion-card mode='md' (click)="gameClicked(x.game.id)">
+        <ion-card mode='md' (click)="gameClicked(x.game.slug)">
           <ion-item button>
             <ion-avatar slot="start">
               <ion-img *ngIf="x.game?.cover?.url != null"
