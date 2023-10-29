@@ -6,6 +6,7 @@ import { Website } from 'src/app/interfaces/igdb/website';
 import { Game } from '../../interfaces/igdb/game';
 import { ApiService } from '../../services/api.service';
 import { Share } from '@capacitor/share';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-game',
@@ -20,7 +21,9 @@ export class GamePage implements OnInit {
   constructor(
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _apiService: ApiService
+    private _apiService: ApiService,
+    private _titleService: Title,
+    private _metaService: Meta
   ) { }
 
   async ngOnInit() {
@@ -61,6 +64,7 @@ export class GamePage implements OnInit {
           this._router.navigate(['']);
         }
         this.gameDetails = data[0];
+        this.setSEOData(this.gameDetails.name, this.gameDetails.summary, this.gameDetails.genres.map(x => x.name).toString());
         this.gameDetails.websites = this.gameDetails?.websites?.filter(this.getOnlyTrustedWebSites);
         //console.log(this.gameDetails.name);
       })
@@ -91,6 +95,13 @@ export class GamePage implements OnInit {
       url: window.location.href,
     });
   }
+
+  setSEOData(title: string, description: string, keywords: string) {
+    console.log(keywords);
+    this._titleService.setTitle(title);
+    this._metaService.updateTag({ name: 'description', content: description })
+    this._metaService.updateTag({ name: 'keywords', content: keywords});
+    }
 
 
 }
