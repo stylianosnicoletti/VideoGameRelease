@@ -9,6 +9,7 @@ import { Share } from '@capacitor/share';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
+  standalone: false,  // this is now required when using NgModule
   selector: 'app-game',
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss'],
@@ -87,6 +88,7 @@ export class GamePage implements OnInit {
     if(website.trusted){
       return website;
     }
+    return null;
   }
 
   async share(){
