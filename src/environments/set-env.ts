@@ -7,9 +7,9 @@ const setEnv = (targetPath: string, platform: string, production: boolean) => {
   production: ${production},
   platform: "${platform}",
   awsProxyUrl: 'https://5qwzyqsvol.execute-api.us-west-2.amazonaws.com/production/',
-  awsProxyApiKey: "${process.env.AWS_PROXY_API_KEY}",
+  awsProxyApiKey: "${process.env['AWS_PROXY_API_KEY']}",
   firebase: {
-    apiKey:  "${process.env.FIREBASE_API_KEY}",
+    apiKey:  "${process.env['FIREBASE_API_KEY']}",
     authDomain: "gameblast-a6f01.firebaseapp.com",
     projectId: "gameblast-a6f01",
     storageBucket: "gameblast-a6f01.appspot.com",
