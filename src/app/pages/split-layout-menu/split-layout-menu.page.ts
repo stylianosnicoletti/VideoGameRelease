@@ -5,6 +5,7 @@ import { FilterPlatform } from 'src/app/interfaces/videogamerelease/filterPlatfo
 
 
 @Component({
+  standalone: false,  // this is now required when using NgModule
   selector: 'app-split-layout-menu',
   templateUrl: './split-layout-menu.page.html',
   styleUrls: ['./split-layout-menu.page.scss'],

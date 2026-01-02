@@ -7,6 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { PlatformId } from 'src/app/enums/platformId';
 
 @Component({
+  standalone: false,  // this is now required when using NgModule
   selector: 'app-games-list',
   templateUrl: './games-list.page.html',
   styleUrls: ['./games-list.page.scss'],
