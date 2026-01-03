@@ -1,6 +1,6 @@
 {
   "name": "videogamerelease",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "author": "Stylianos Nicoletti",
   "homepage": "https://videogamerelease.com",
   "scripts": {
@@ -33,10 +33,10 @@
     "@capacitor/share": "^8.0.0",
     "@ionic/angular": "^8.0.0",
     "cookieconsent": "^3.1.1",
-    "firebase": "^10.5.2",
+    "firebase": "^10.14.1",
     "ionicons": "^7.2.1",
-    "ng2-adsense": "^13.0.0",
-    "ngx-cookieconsent": "^4.0.2",
+    "ng2-adsense": "^14.0.0",
+    "ngx-cookieconsent": "^8.0.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
     "zone.js": "~0.15.0"
