@@ -32,8 +32,14 @@
               "src/manifest.webmanifest",
               "src/ads.txt"
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss", "node_modules/cookieconsent/build/cookieconsent.min.css" ],
-            "scripts": ["node_modules/cookieconsent/build/cookieconsent.min.js"],
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss",
+              "node_modules/cookieconsent/build/cookieconsent.min.css"
+            ],
+            "scripts": [
+              "node_modules/cookieconsent/build/cookieconsent.min.js"
+            ],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
@@ -41,8 +47,8 @@
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "prodWeb": {
@@ -74,26 +80,26 @@
               "progress": false
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "prodWeb"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "app:build"
+            "buildTarget": "app:build"
           },
           "configurations": {
             "prodWeb": {
-              "browserTarget": "app:build:prodWeb"
+              "buildTarget": "app:build:prodWeb"
             },
             "ci": {
-              "progress": false
+              "buildTarget": "app:build:ci"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "app:build"
+            "buildTarget": "app:build"
           }
         },
         "test": {
