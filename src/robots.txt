@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://videogamerelease.com/sitemap.xml

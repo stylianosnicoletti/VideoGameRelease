@@ -30,7 +30,9 @@
                 "output": "./svg"
               },
               "src/manifest.webmanifest",
-              "src/ads.txt"
+              "src/ads.txt",
+              "src/robots.txt",
+              "src/sitemap.xml"
             ],
             "styles": [
               "src/theme/variables.scss",
